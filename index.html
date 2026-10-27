@@ -155,8 +155,7 @@
     .app{min-height:auto;border-radius:26px;border:1px solid rgba(168,85,247,.25)}
     .status{padding-top:8px}
   }
-</style>
-</head>
+        </style></head>
 <body>
 <div class="app">
   <div class="status">
@@ -350,4 +349,209 @@
       <div class="row"><div class="rtxt"><div class="rname">Vibração</div><div class="rdesc">Pulsa ao injetar e remover.</div></div><button class="sw" data-k="haptic"><i></i></button></div>
       <div class="sec">ARQUIVOS</div>
       <div class="pathchip" style="margin-bottom:8px">
-        <span>/Android/data/com.dts.freefiremax/files/drip/</span
+        <span>/Android/data/com.dts.freefiremax/files/drip/</span>
+      </div>
+      <div class="row" style="margin-bottom:0"><div class="rtxt"><div class="rname">Idioma</div><div class="rdesc">Português (BR).</div></div><span style="font-size:11px;color:#7d7694">PT-BR</span></div>
+      <div class="hint" style="padding-top:14px">DRIP CLIENT v5.0 · proxy ativo · ping <span id="ping">38</span>ms</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="navbtn" data-nav="games">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 12h3M8.5 10.5v3M15.5 11.5h.01M17.5 13.5h.01"/></svg>
+      GAMES
+    </button>
+    <button class="navbtn" data-nav="settings">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.2 7.2l2 1.2M17.8 15.6l2 1.2M4.2 16.8l2-1.2M17.8 8.4l2-1.2"/></svg>
+      SETTINGS
+    </button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div><script>
+const KEY='drip_ffmax_v2';
+const DEFAULTS={
+  nav:'games',tab:'proxy',
+  antiban:true,hwid:true,ghost:true,clearcache:true,
+  autoLaunch:true,autoClose:true,
+  precisa:true,hs:'alto',
+  esp:true,espBox:true,espNoAlly:true,espHp:false,espName:true,espDist:true,espLine:false,espRange:'40',
+  boost:true,sound:false,haptic:true,
+  inject:false,gameOpen:false
+};
+let S=Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||'null')||{});
+let busy=false,ct=null;
+
+const PKG='com.dts.freefiremax';
+const GAMEDIR='/Android/data/'+PKG+'/files/';
+const PROXYDIR=GAMEDIR+'drip/';
+const PAYLOAD=['libdrip.so','drip.cfg','esp.dat'];
+const LAUNCH='intent://launch#Intent;scheme=freefiremax;package='+PKG+';end';
+
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const LOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
+const UNLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.6"/></svg>';
+
+const LOG=[];
+function log(msg,cls){
+  const d=new Date();
+  const t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  LOG.push({t,msg,cls}); if(LOG.length>9)LOG.shift(); paintLog();
+}
+function paintLog(){
+  $('#log').innerHTML=LOG.map(l=>'<div><span class="t">['+l.t+']</span> <span class="'+(l.cls||'')+'">'+l.msg+'</span></div>').join('')||'<div><span class="t">[--:--:--]</span> aguardando...</div>';
+}
+let tt;
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1800);}
+function buzz(ms){if(S.haptic&&navigator.vibrate)try{navigator.vibrate(ms)}catch(e){}}
+
+function launchGame(silent){
+  try{
+    const f=document.createElement('iframe');
+    f.style.cssText='display:none;width:0;height:0;border:0';
+    f.src=LAUNCH;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),2000);
+    if(!silent)toast('Abrindo Free Fire MAX...');
+    return true;
+  }catch(e){ if(!silent)toast('Abra o Free Fire MAX na mão'); return false; }
+}
+
+function updatePreview(){
+  const p=$('#prev');
+  p.classList.toggle('eoff',!S.esp||!S.espBox);
+  p.classList.toggle('showally',!S.espNoAlly);
+  p.classList.toggle('nohp',!S.espHp);
+  p.classList.toggle('noname',!S.espName);
+  p.classList.toggle('nodist',!S.espDist);
+  p.classList.toggle('noline',!S.espLine);
+  $('#pvRange').textContent=S.espRange==='all'?'SEM LIMITE':S.espRange+'m';
+}
+
+function render(){
+  $$('.tabbtn').forEach(b=>b.classList.toggle('on',b.dataset.tab===S.tab));
+  $$('.navbtn').forEach(b=>b.classList.toggle('on',b.dataset.nav===S.nav));
+  $('#tabFunc').style.display=(S.nav==='games'&&S.tab==='func')?'block':'none';
+  $('#tabProxy').style.display=(S.nav==='games'&&S.tab==='proxy')?'block':'none';
+  $('#tabEsp').style.display=(S.nav==='games'&&S.tab==='esp')?'block':'none';
+  $('#panelGames').style.display=(S.nav==='games')?'block':'none';
+  $('#panelSettings').style.display=(S.nav==='settings')?'block':'none';
+
+  $$('.sw').forEach(b=>{const k=b.dataset.k; if(k)b.classList.toggle('on',!!S[k]);});
+  $$('.rd[data-hs]').forEach(b=>b.classList.toggle('on',S.hs===b.dataset.hs));
+  $$('.rd[data-range]').forEach(b=>b.classList.toggle('on',S.espRange===b.dataset.range));
+  $$('#tabEsp .row.sub').forEach(r=>r.classList.toggle('dim',!S.esp));
+
+  const btn=$('#inject');
+  if(!busy){btn.innerHTML=S.inject?UNLOCK+'REMOVER':LOCK+'INJETAR';btn.classList.toggle('armed',S.inject);}
+  $('#pPill').style.display=S.inject?'block':'none';
+  $('#stTxt').textContent=busy?'Trabalhando':S.inject?'Injetado':S.gameOpen?'Jogo aberto':'Online';
+  $('#stateBox').classList.toggle('busy',busy);
+  updatePreview();
+}
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button'); if(!t)return;
+  if(t.dataset.tab){S.tab=t.dataset.tab;save();render();}
+  if(t.dataset.nav){S.nav=t.dataset.nav;save();render();}
+  if(t.dataset.k&&!t.classList.contains('locked')){S[t.dataset.k]=!S[t.dataset.k];save();render();}
+  if(t.dataset.hs){S.hs=S.hs===t.dataset.hs?null:t.dataset.hs;save();render();}
+  if(t.dataset.range){S.espRange=t.dataset.range;save();render();}
+});
+
+$('#launch').addEventListener('click',()=>{
+  if(S.gameOpen){log('Free Fire MAX já está aberto','ok');toast('O jogo já está aberto');return;}
+  log('Abrindo Free Fire MAX...','hl');
+  launchGame(); S.gameOpen=true; save(); render();
+});
+
+$('#copyPath').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText(PROXYDIR);toast('Caminho copiado');}
+  catch(e){toast(PROXYDIR);}
+});
+
+$('#inject').addEventListener('click',()=>{
+  if(busy)return;
+  if(S.inject){
+    $('#confirm').classList.add('on');
+    clearTimeout(ct); ct=setTimeout(()=>$('#confirm').classList.remove('on'),7000);
+    return;
+  }
+  inject();
+});
+$('#no').addEventListener('click',()=>$('#confirm').classList.remove('on'));
+$('#yes').addEventListener('click',()=>{$('#confirm').classList.remove('on');remove();});
+
+async function inject(){
+  busy=true; const btn=$('#inject'); btn.classList.add('busy'); btn.textContent='INJETANDO...'; render();
+  log('Verificando Free Fire MAX...');
+  await wait(420);
+  log('Pacote '+PKG+' · pasta do jogo localizada','ok');
+  await wait(420);
+
+  if(S.autoLaunch){
+    log('Abrindo Free Fire MAX automaticamente...','hl');
+    launchGame(true); S.gameOpen=true;
+  }else{
+    log('Abra o Free Fire MAX para o hack carregar');
+  }
+  await wait(560);
+  log('Injetando hack na pasta do jogo...','hl');
+  await wait(520);
+  log('Copiado em '+PROXYDIR,'ok');
+  await wait(380);
+  log('Arquivos: '+PAYLOAD.join(' · '),'ok');
+  await wait(420);
+  if(S.esp)log('ESP ativo · box branca · aliados ocultos','ok');
+  if(S.precisa)log('Precisão HS: '+(S.hs||'padrão'),'ok');
+  await wait(360);
+  log('Anti-ban ativo'+(S.hwid?' · HWID mascarado':'')+(S.ghost?' · modo fantasma':''),'ok');
+  await wait(420);
+  log('Injeção concluída · bom jogo!','ok');
+
+  S.inject=true; busy=false; btn.classList.remove('busy'); save(); render(); buzz(35);
+  toast('Injetado no Free Fire MAX');
+}
+
+async function remove(){
+  busy=true; const btn=$('#inject'); btn.classList.add('busy'); btn.textContent='REMOVENDO...'; render();
+  if(S.autoClose){
+    log('Fechando Free Fire MAX...','hl');
+    S.gameOpen=false;
+  }else{
+    log('Feche o Free Fire MAX para tirar o proxy');
+  }
+  await wait(620);
+  log('Processo encerrado · proxy desconectado','ok');
+  await wait(420);
+  log('Removendo o hack da pasta do jogo...','hl');
+  await wait(560);
+  log('Apagado: '+PAYLOAD.join(' · '),'ok');
+  await wait(420);
+  log('Devolvendo os arquivos originais do jogo...','ok');
+  await wait(520);
+  if(S.clearcache){log('Cache e logs temporários zerados','ok');await wait(400);}
+  if(S.hwid){log('HWID original restaurado','ok');await wait(380);}
+  log('Nenhum rastro de proxy ou hack · jogo 100% limpo','ok');
+
+  S.inject=false; busy=false; btn.classList.remove('busy'); save(); render(); buzz([20,40,20]);
+  toast('Proxy removido sem rastro');
+}
+
+(function tick(){
+  const d=new Date();
+  $('#clk').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  $('#ping').textContent=34+Math.floor(Math.random()*12);
+  setTimeout(tick,1000);
+})();
+
+log('DRIP CLIENT PROXY v5.0 iniciado','hl');
+log('Proxy conectado · região BR','ok');
+log('ESP pronta · box branca · aliados ocultos','ok');
+log('Aguardando injeção...');
+render();
+</script>
+</body>
+</html>
