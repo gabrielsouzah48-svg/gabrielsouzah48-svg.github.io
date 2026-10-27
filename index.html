@@ -26,6 +26,7 @@
           gap:5px;background:#0f1f16;border:1px solid rgba(74,222,128,.28);
           padding:4px 9px;border-radius:20px;white-space:nowrap}
   .online.busy{color:#facc15;background:#221c08;border-color:rgba(250,204,21,.3)}
+  .online.err{color:#f87171;background:#200f0f;border-color:rgba(248,113,113,.3)}
   .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
   .tabs{display:flex;gap:6px;padding:0 14px 10px}
   .tabbtn{flex:1;background:#120c20;border:1px solid rgba(168,85,247,.14);color:#8b83a6;
@@ -80,12 +81,13 @@
   .btnrow{display:flex;gap:8px}
   .log{margin-top:12px;background:#0c0817;border:1px solid rgba(168,85,247,.13);
        border-radius:12px;padding:9px 11px;font-family:ui-monospace,SFMono-Regular,Menlo,
-       Consolas,monospace;font-size:10.5px;color:#8f86ad;min-height:118px;max-height:190px;overflow:hidden}
+       Consolas,monospace;font-size:10.5px;color:#8f86ad;min-height:118px;max-height:200px;overflow:hidden}
   .log div{margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .log .t{color:#5f5878}
   .log .ok{color:#4ade80}
   .log .hl{color:#c084fc}
   .log .er{color:#f87171}
+  .log .wr{color:#facc15}
   .nav{display:flex;border-top:1px solid rgba(168,85,247,.14);background:#0c0817;
        padding-bottom:env(safe-area-inset-bottom);margin-top:14px}
   .navbtn{flex:1;background:transparent;border:0;padding:11px 0 13px;color:#6b6383;
@@ -151,29 +153,42 @@
   .noname .tname{display:none}
   .nodist .tdist{display:none}
   .noline .eline{opacity:0}
-  .engine{display:flex;gap:6px;margin-bottom:9px}
-  .eng{flex:1;text-align:center;font-size:9px;letter-spacing:.7px;padding:7px 2px;border-radius:8px;
-       background:#0c0817;border:1px solid rgba(168,85,247,.14);color:#6b6383;cursor:pointer;
-       font-family:inherit;line-height:1.3}
-  .eng.on{background:#1a1030;border-color:rgba(192,132,252,.45);color:#e9d5ff}
-  .eng.za.on{background:#132b13;border-color:rgba(74,222,128,.5);color:#bbf7d0}
   .code{margin-top:8px;background:#0c0817;border:1px solid rgba(168,85,247,.16);border-radius:11px;
         padding:9px 10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-        font-size:9.5px;color:#a99fc4;white-space:pre;overflow:auto;max-height:180px;line-height:1.5}
+        font-size:9.5px;color:#a99fc4;white-space:pre;overflow:auto;max-height:190px;line-height:1.55}
   .inp{background:#0c0817;border:1px solid rgba(168,85,247,.2);color:#e9d5ff;border-radius:8px;
        padding:7px 9px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;
        width:132px;text-align:right;outline:none}
   .inp:focus{border-color:rgba(192,132,252,.6)}
-  .badge{font-size:9px;padding:2px 7px;border-radius:6px;letter-spacing:.6px}
+  .badge{font-size:9px;padding:2px 7px;border-radius:6px;letter-spacing:.6px;flex:0 0 auto}
   .b-ok{background:#0f1f16;color:#4ade80;border:1px solid rgba(74,222,128,.3)}
   .b-no{background:#200f0f;color:#f87171;border:1px solid rgba(248,113,113,.3)}
-  .steps{display:flex;flex-direction:column;gap:9px}
-  .step{display:flex;gap:9px;align-items:flex-start;font-size:11px;color:#b9b0d4;line-height:1.45}
-  .step .n{flex:0 0 18px;height:18px;border-radius:50%;background:#3b1178;color:#e9d5ff;
-       display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:500}
-  .step code{background:#0c0817;border:1px solid rgba(168,85,247,.2);border-radius:5px;
-       padding:1px 5px;font-family:ui-monospace,Menlo,monospace;font-size:9.5px;color:#c084fc;
-       word-break:break-all}
+  .b-wr{background:#221c08;color:#facc15;border:1px solid rgba(250,204,21,.3)}
+  .chk{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#0c0817;
+       border:1px solid rgba(168,85,247,.13);border-radius:9px;margin-bottom:5px}
+  .chk .cn{flex:1;font-size:10.5px;font-family:ui-monospace,Menlo,Consolas,monospace;
+       color:#a99fc4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chk .cs{font-size:9px;color:#5f5878;flex:0 0 auto}
+  .st{font-size:9px;padding:2px 7px;border-radius:6px;letter-spacing:.5px;flex:0 0 auto}
+  .st.ok{background:#0f1f16;color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+  .st.no{background:#200f0f;color:#f87171;border:1px solid rgba(248,113,113,.3)}
+  .st.idle{background:#141024;color:#6b6383;border:1px solid rgba(168,85,247,.18)}
+  .banner{display:flex;gap:9px;align-items:center;background:#1a1030;
+       border:1px solid rgba(192,132,252,.4);border-radius:11px;padding:10px 12px;
+       font-size:11px;color:#e9d5ff;margin-bottom:9px;line-height:1.4}
+  .banner.hide{display:none}
+  .banner.warn{background:#221c08;border-color:rgba(250,204,21,.4);color:#fde68a}
+  .banner b{font-weight:500;color:#fff}
+  .prog{height:3px;background:#241a3c;border-radius:3px;overflow:hidden;margin-top:10px}
+  .prog i{display:block;height:100%;width:0;background:#c084fc;transition:width .28s ease}
+  .big{font-size:11.5px;color:#b9b0d4;line-height:1.55}
+  .big b{color:#c084fc;font-weight:500}
+  .kv{display:flex;justify-content:space-between;gap:10px;font-size:11px;padding:5px 0;
+      border-bottom:1px dashed rgba(168,85,247,.12)}
+  .kv:last-child{border-bottom:0}
+  .kv span:first-child{color:#7d7694}
+  .kv span:last-child{color:#e9d5ff;font-family:ui-monospace,Menlo,monospace;font-size:10px;
+      text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:58%}
   @media (min-width:600px){
     body{background:#07050f;padding:26px 0}
     .app{min-height:auto;border-radius:26px;border:1px solid rgba(168,85,247,.25)}
@@ -229,12 +244,20 @@
         </div>
         <div class="sec">AUTOMAÇÃO DO JOGO</div>
         <div class="row">
-          <div class="rtxt"><div class="rname">Abrir o FF MAX ao injetar</div><div class="rdesc">O jogo abre sozinho depois da injeção.</div></div>
+          <div class="rtxt"><div class="rname">Entrar no jogo ao injetar</div><div class="rdesc">O FF MAX abre sozinho depois de gravar.</div></div>
           <button class="sw" data-k="autoLaunch"><i></i></button>
         </div>
         <div class="row">
-          <div class="rtxt"><div class="rname">Fechar o FF MAX ao remover</div><div class="rdesc">Fecha o jogo para tirar o proxy limpo.</div></div>
+          <div class="rtxt"><div class="rname">Fechar o FF ao remover</div><div class="rdesc">Fecha o jogo para tirar o proxy limpo.</div></div>
           <button class="sw" data-k="autoClose"><i></i></button>
+        </div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">Verificar tudo ao injetar</div><div class="rdesc">Relê cada arquivo gravado e confere.</div></div>
+          <button class="sw" data-k="verify"><i></i></button>
+        </div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">Backup da pasta antiga</div><div class="rdesc">Guarda a versão anterior antes de sobrescrever.</div></div>
+          <button class="sw" data-k="backup"><i></i></button>
         </div>
       </div>
 
@@ -273,9 +296,11 @@
             </div>
             <div class="pill" id="pPill" style="display:none">● INJETADO</div>
           </div>
-          <div class="btnrow">
-            <button class="btn" id="inject"></button>
-            <button class="btn ghost" id="launch">ABRIR FF</button>
+          <button class="btn" id="inject"></button>
+          <div class="prog"><i id="progBar"></i></div>
+          <div class="btnrow" style="margin-top:9px">
+            <button class="btn mini" id="launch">ABRIR FF</button>
+            <button class="btn mini" id="diagBtn">DIAGNÓSTICO</button>
           </div>
           <div class="confirm" id="confirm">
             <span>Fechar o Free Fire MAX e remover o proxy?</span>
@@ -284,42 +309,44 @@
           </div>
         </div>
 
-        <div class="sec">MÉTODO DE INJEÇÃO <span id="engBadge"></span></div>
-        <div class="engine">
-          <button class="eng za" data-engine="zarchiver">ZARCHIVER<br><span style="font-size:8px">ZIP</span></button>
-          <button class="eng" data-engine="fs">GRAVAÇÃO<br><span style="font-size:8px">DIRETA</span></button>
-          <button class="eng" data-engine="auto">AUTO<br><span style="font-size:8px">MELHOR</span></button>
+        <div class="sec">PASTA DO JOGO <span id="folderBadge"></span></div>
+        <div class="banner hide" id="bindBanner">
+          <span>Primeira vez: escolha a pasta <b>files</b> do Free Fire. Depois disso o app grava sozinho para sempre.</span>
         </div>
-
-        <div class="sec">INJEÇÃO VIA ZARCHIVER</div>
-        <div class="card">
-          <div class="steps">
-            <div class="step"><span class="n">1</span><span>Toque em <b>GERAR ZIP</b>. O arquivo <code>drip_ffmax.zip</code> vai para a pasta Download, já com a pasta <code>drip</code> dentro.</span></div>
-            <div class="step"><span class="n">2</span><span>Toque em <b>ABRIR NO ZARCHIVER</b>. Ele abre o ZIP direto no ZArchiver.</span></div>
-            <div class="step"><span class="n">3</span><span>No ZArchiver vá em <code>Android/data/com.dts.freefiremax/files</code> e toque em <b>Extrair aqui</b>. A pasta <code>drip</code> aparece pronta.</span></div>
-          </div>
-          <div class="btnrow" style="margin-top:11px">
-            <button class="btn mini za" id="genZip">GERAR ZIP</button>
-            <button class="btn mini za" id="openZa">ABRIR NO ZARCHIVER</button>
-          </div>
-          <div class="btnrow" style="margin-top:8px">
-            <button class="btn mini" id="openZaPro">ZARCHIVER PRO</button>
-            <button class="btn mini" id="copyZipPath">COPIAR CAMINHO</button>
-          </div>
-        </div>
-
-        <div class="sec">DESTINO DA EXTRAÇÃO</div>
         <div class="pathchip">
           <span id="destTxt"></span>
           <button id="copyDest">COPIAR</button>
         </div>
-        <div class="pathchip">
-          <span id="zipPathTxt"></span>
-          <button id="copyZipPath2">COPIAR</button>
+        <div class="card">
+          <div class="kv"><span>Estado</span><span id="kState">—</span></div>
+          <div class="kv"><span>Pasta vinculada</span><span id="kFolder">—</span></div>
+          <div class="kv"><span>Permissão</span><span id="kPerm">—</span></div>
+          <div class="kv"><span>Motor</span><span id="kEngine">—</span></div>
+          <div class="kv"><span>Última injeção</span><span id="kLast">nunca</span></div>
+          <div class="btnrow" style="margin-top:10px">
+            <button class="btn mini" id="bindBtn">ESCOLHER PASTA</button>
+            <button class="btn mini" id="recheck">VERIFICAR</button>
+          </div>
         </div>
 
-        <div class="sec">ARQUIVOS DA INJEÇÃO</div>
-        <div id="fileList"></div>
+        <div class="sec">VERIFICAÇÃO DOS ARQUIVOS <span id="chkBadge"></span></div>
+        <div id="chkList"></div>
+
+        <div class="sec">RELATÓRIO</div>
+        <div class="code" id="repPre">toque em DIAGNÓSTICO</div>
+
+        <div class="sec">PLANO B — ZARCHIVER</div>
+        <div class="card">
+          <div class="big">Se o seu navegador não deixar escolher a pasta, gere o ZIP e extraia em <b>Android/data/com.dts.freefiremax/files</b>. A pasta <b>drip</b> vem pronta dentro.</div>
+          <div class="btnrow" style="margin-top:10px">
+            <button class="btn mini za" id="genZip">GERAR ZIP</button>
+            <button class="btn mini za" id="openZa">ABRIR ZARCHIVER</button>
+          </div>
+          <div class="btnrow" style="margin-top:8px">
+            <button class="btn mini" id="openZaPro">ZARCHIVER PRO</button>
+            <button class="btn mini" id="copyZipPath">COPIAR ZIP</button>
+          </div>
+        </div>
 
         <div class="sec">CONFIG GERADA (LIVE)</div>
         <div class="code" id="cfgPre"></div>
@@ -404,15 +431,7 @@
       <div class="row"><div class="rtxt"><div class="rname">Boost de FPS</div><div class="rdesc">Libera taxa de quadros no Max.</div></div><button class="sw" data-k="boost"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Som de injeção</div><div class="rdesc">Aviso ao injetar e remover.</div></div><button class="sw" data-k="sound"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Vibração</div><div class="rdesc">Pulsa ao injetar e remover.</div></div><button class="sw" data-k="haptic"><i></i></button></div>
-
-      <div class="sec">ZARCHIVER</div>
-      <div class="row"><div class="rtxt"><div class="rname">Nome do ZIP</div><div class="rdesc">Arquivo gerado no Download.</div></div><input class="inp" data-k="zipName" value="drip_ffmax.zip"></div>
-      <div class="row"><div class="rtxt"><div class="rname">Pasta de download</div><div class="rdesc">Onde o ZIP é salvo.</div></div><input class="inp" data-k="dlPath" value="/sdcard/Download"></div>
-      <div class="row" style="margin-bottom:8px"><div class="rtxt"><div class="rname">Auto-abrir o ZArchiver</div><div class="rdesc">Abre o ZIP no ZArchiver ao injetar.</div></div><button class="sw" data-k="autoZa"><i></i></button></div>
-      <div class="btnrow" style="margin-bottom:8px">
-        <button class="btn mini" id="testZa">TESTAR ABERTURA</button>
-        <button class="btn mini" id="openZaFolder">ABRIR PASTA DESTINO</button>
-      </div>
+      <div class="row"><div class="rtxt"><div class="rname">Auto-reconectar pasta</div><div class="rdesc">Religa a pasta sozinho ao abrir o app.</div></div><button class="sw" data-k="autoReconnect"><i></i></button></div>
 
       <div class="sec">NOMES DOS ARQUIVOS</div>
       <div class="row"><div class="rtxt"><div class="rname">Subpasta</div><div class="rdesc">Criada dentro de files/</div></div><input class="inp" data-k="dirName" value="drip"></div>
@@ -421,19 +440,15 @@
       <div class="row"><div class="rtxt"><div class="rname">State JSON</div><div class="rdesc">Espelho completo.</div></div><input class="inp" data-k="jsonName" value="drip.json"></div>
       <div class="row"><div class="rtxt"><div class="rname">Library</div><div class="rdesc">Nome do binário do proxy.</div></div><input class="inp" data-k="libName" value="libdrip.so"></div>
 
-      <div class="sec">GRAVAÇÃO DIRETA (SAF)</div>
-      <div class="row" style="margin-bottom:8px">
-        <div class="rtxt"><div class="rname" id="boundName">Nenhuma pasta vinculada</div>
-        <div class="rdesc" id="boundDesc">Opcional. O ZArchiver já resolve.</div></div>
-        <span class="badge b-no" id="boundBadge">OFF</span>
-      </div>
+      <div class="sec">ZARCHIVER / MANUAL</div>
+      <div class="row"><div class="rtxt"><div class="rname">Nome do ZIP</div><div class="rdesc">Arquivo gerado no Download.</div></div><input class="inp" data-k="zipName" value="drip_ffmax.zip"></div>
+      <div class="row"><div class="rtxt"><div class="rname">Pasta de download</div><div class="rdesc">Onde o ZIP é salvo.</div></div><input class="inp" data-k="dlPath" value="/sdcard/Download"></div>
       <div class="btnrow" style="margin-bottom:8px">
-        <button class="btn mini" id="bindBtn">VINCULAR PASTA</button>
         <button class="btn mini" id="copyAdb">COPIAR ADB</button>
+        <button class="btn mini" id="resetBtn">RESETAR ESTADO</button>
       </div>
 
-      <div class="row" style="margin-bottom:0"><div class="rtxt"><div class="rname">Idioma</div><div class="rdesc">Português (BR).</div></div><span style="font-size:11px;color:#7d7694">PT-BR</span></div>
-      <div class="hint" style="padding-top:14px">DRIP CLIENT v7.0 · motor ZArchiver · ping <span id="ping">38</span>ms</div>
+      <div class="hint" style="padding-top:14px">DRIP CLIENT v8.0 · injeção direta · ping <span id="ping">38</span>ms</div>
     </div>
   </div>
 
@@ -451,26 +466,27 @@
   <div class="toast" id="toast"></div>
 </div><script>
 /* ============================================================
-   DRIP CLIENT PROXY v7.0 — injeção via ZArchiver
-   Motor principal: ZIP com a pasta drip/ dentro + intent p/ ZArchiver
-   Motor secundário: gravação direta na pasta (File System Access)
-   Motor extra: ponte nativa de app Android
+   DRIP CLIENT PROXY v8.0 — injeção direta e automática
+   1 toque em INJETAR: grava na pasta do FF, confere arquivo por
+   arquivo e entra no jogo. Pasta vinculada uma única vez.
+   Reservas: ponte nativa de app Android e ZIP + ZArchiver.
    ============================================================ */
-const KEY='drip_ffmax_v4';
+const KEY='drip_ffmax_v5';
 const DEFAULTS={
   nav:'games',tab:'proxy',
   antiban:true,hwid:true,ghost:true,clearcache:true,
-  autoLaunch:true,autoClose:true,autoZa:true,
+  autoLaunch:true,autoClose:true,verify:true,backup:true,autoReconnect:true,
   precisa:true,hs:'alto',
   esp:true,espBox:true,espNoAlly:true,espHp:false,espName:true,espDist:true,espLine:false,espRange:'40',
   boost:true,sound:false,haptic:true,
-  inject:false,gameOpen:false,bound:false,engine:'zarchiver',
+  inject:false,gameOpen:false,bound:false,
   dirName:'drip',cfgName:'drip.cfg',espName:'esp.dat',jsonName:'drip.json',libName:'libdrip.so',
-  zipName:'drip_ffmax.zip',dlPath:'/sdcard/Download'
+  zipName:'drip_ffmax.zip',dlPath:'/sdcard/Download',
+  lastInject:'nunca'
 };
 let S=Object.assign({},DEFAULTS);
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'null')||{});}catch(e){}
-let busy=false,ct=null,dirHandle=null;
+let busy=false,ct=null,dirHandle=null,CHECK=[],engine='none';
 
 const PKG='com.dts.freefiremax';
 const GAMEDIR='/Android/data/'+PKG+'/files/';
@@ -485,11 +501,8 @@ const LOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="
 const UNLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.6"/></svg>';
 
 /* ---------- ponte nativa opcional ---------- */
-const bridge=(()=>{
-  const c=[window.DripBridge,window.Android,window.drip,window.NativeBridge];
-  for(const b of c){ if(b && typeof b==='object') return b; }
-  return null;
-})();
+const bridge=(()=>{ const c=[window.DripBridge,window.Android,window.drip,window.NativeBridge];
+  for(const b of c){ if(b && typeof b==='object') return b; } return null; })();
 function bcall(fn,...a){ if(!bridge||typeof bridge[fn]!=='function')return null; try{return bridge[fn](...a);}catch(e){return null;} }
 const hasBridge=!!(bridge&&(typeof bridge.writeFile==='function'||typeof bridge.salvar==='function'));
 
@@ -498,10 +511,11 @@ const IDB={db:null,
   open(){return new Promise((res,rej)=>{try{const r=indexedDB.open('dripstore',1);
     r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);}catch(e){rej(e);}});},
   async set(k,v){try{const db=await this.open();return new Promise(r=>{const tx=db.transaction('h','readwrite');tx.objectStore('h').put(v,k);tx.oncomplete=r;tx.onerror=r;});}catch(e){}},
-  async get(k){try{const db=await this.open();return new Promise(r=>{const tx=db.transaction('h','readonly');const q=tx.objectStore('h').get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r(null);});}catch(e){return null;}}
+  async get(k){try{const db=await this.open();return new Promise(r=>{const tx=db.transaction('h','readonly');const q=tx.objectStore('h').get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r(null);});}catch(e){return null;}},
+  async del(k){try{const db=await this.open();return new Promise(r=>{const tx=db.transaction('h','readwrite');tx.objectStore('h').delete(k);tx.oncomplete=r;});}catch(e){}}
 };
 
-/* ---------- CRC32 + ZIP (com a pasta drip/ dentro) ---------- */
+/* ---------- CRC32 + ZIP (plano B) ---------- */
 const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
 function crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRCT[(c^b[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
 function makeZip(list){
@@ -535,37 +549,21 @@ function buildCfg(){
   L.push('; gerado em '+new Date().toISOString());
   L.push('; pacote '+PKG+'  v1.123.1  regiao BR');
   L.push('');
-  L.push('[game]');
-  L.push('package='+PKG);
-  L.push('version=1.123.1');
-  L.push('region=BR');
-  L.push('');
+  L.push('[game]');L.push('package='+PKG);L.push('version=1.123.1');L.push('region=BR');L.push('');
   L.push('[aim]');
   L.push('headshot='+(S.hs?(HSCODE[S.hs]||'default'):'default'));
-  L.push('precision='+(S.precisa?1:0));
-  L.push('lock_target=head');
-  L.push('');
+  L.push('precision='+(S.precisa?1:0));L.push('lock_target=head');L.push('');
   L.push('[esp]');
-  L.push('enabled='+(S.esp?1:0));
-  L.push('box='+(S.espBox?1:0));
-  L.push('box_color=#FFFFFF');
-  L.push('box_style=solid');
-  L.push('hide_allies='+(S.espNoAlly?1:0));
-  L.push('health='+(S.espHp?1:0));
-  L.push('name='+(S.espName?1:0));
-  L.push('distance='+(S.espDist?1:0));
+  L.push('enabled='+(S.esp?1:0));L.push('box='+(S.espBox?1:0));
+  L.push('box_color=#FFFFFF');L.push('box_style=solid');
+  L.push('hide_allies='+(S.espNoAlly?1:0));L.push('health='+(S.espHp?1:0));
+  L.push('name='+(S.espName?1:0));L.push('distance='+(S.espDist?1:0));
   L.push('snapline='+(S.espLine?1:0));
-  L.push('range_m='+(S.espRange==='all'?0:parseInt(S.espRange,10)));
-  L.push('');
+  L.push('range_m='+(S.espRange==='all'?0:parseInt(S.espRange,10)));L.push('');
   L.push('[antiban]');
-  L.push('enabled='+(S.antiban?1:0));
-  L.push('hwid_spoof='+(S.hwid?1:0));
-  L.push('ghost='+(S.ghost?1:0));
-  L.push('clear_on_remove='+(S.clearcache?1:0));
-  L.push('');
-  L.push('[perf]');
-  L.push('fps_boost='+(S.boost?1:0));
-  L.push('');
+  L.push('enabled='+(S.antiban?1:0));L.push('hwid_spoof='+(S.hwid?1:0));
+  L.push('ghost='+(S.ghost?1:0));L.push('clear_on_remove='+(S.clearcache?1:0));L.push('');
+  L.push('[perf]');L.push('fps_boost='+(S.boost?1:0));L.push('');
   return L.join('\n');
 }
 function buildEsp(){
@@ -583,7 +581,7 @@ function buildEsp(){
 }
 function buildJson(){
   return JSON.stringify({
-    client:'DRIP CLIENT PROXY',version:'7.0',package:PKG,gameVersion:'1.123.1',
+    client:'DRIP CLIENT PROXY',version:'8.0',package:PKG,gameVersion:'1.123.1',
     generated:new Date().toISOString(),
     aim:{headshot:S.hs,headshotCode:S.hs?HSCODE[S.hs]:'default',precision:S.precisa},
     esp:{enabled:S.esp,box:S.espBox,hideAllies:S.espNoAlly,health:S.espHp,name:S.espName,distance:S.espDist,snapline:S.espLine,range:S.espRange},
@@ -593,41 +591,22 @@ function buildJson(){
 }
 function buildReadme(){
   const d=S.dirName||'drip';
-  return [
-  'DRIP CLIENT PROXY v7.0 — LEIA-ME',
-  '==================================',
-  'Esta pasta foi criada pelo DRIP CLIENT. Pode apagar a qualquer momento.',
-  '',
-  'ONDE ELA FICA:',
-  '  /sdcard/Android/data/'+PKG+'/files/'+d+'/',
-  '',
-  'COMO INSTALAR (ZARCHIVER):',
-  '  1. Copie o '+S.zipName+' para o celular.',
-  '  2. Abra o ZArchiver e va em:',
-  '     Android/data/'+PKG+'/files',
-  '  3. Toque no zip e escolha "Extrair aqui".',
-  '  4. A pasta "'+d+'" aparece pronta, sem precisar criar nada.',
-  '',
-  'COMO REMOVER:',
-  '  Feche o Free Fire MAX e apague a pasta "'+d+'" inteira.',
-  '',
-  'ARQUIVOS:',
-  '  '+S.cfgName+'        config de aim (HS) e ESP',
-  '  '+S.espName+'        payload da ESP',
-  '  '+S.jsonName+'       espelho completo',
-  '  '+S.libName+'     binario/stub do proxy',
-  '  drip.manifest  lista dos arquivos gerenciados',
-  '',
-  'Se o seu loader espera outro nome de arquivo, mude em SETTINGS.',
-  ''].join('\n');
+  return ['DRIP CLIENT PROXY v8.0 — LEIA-ME','==================================',
+  'Esta pasta foi criada pelo DRIP CLIENT. Pode apagar a qualquer momento.','',
+  'ONDE ELA FICA:','  /sdcard/Android/data/'+PKG+'/files/'+d+'/','',
+  'COMO REMOVER:','  Feche o Free Fire MAX e apague a pasta "'+d+'" inteira.','',
+  'ARQUIVOS:','  '+S.cfgName+'        config de aim (HS) e ESP','  '+S.espName+'        payload da ESP',
+  '  '+S.jsonName+'       espelho completo','  '+S.libName+'     binario/stub do proxy',
+  '  drip.manifest  lista dos arquivos gerenciados','',
+  'Se o seu loader espera outro nome de arquivo, mude em SETTINGS.',''].join('\n');
 }
 function buildManifest(){
-  return ['DRIP CLIENT PROXY v7.0','destino: '+GAMEDIR+(S.dirName||'drip')+'/','gerado: '+new Date().toISOString(),'',
+  return ['DRIP CLIENT PROXY v8.0','destino: '+GAMEDIR+(S.dirName||'drip')+'/','gerado: '+new Date().toISOString(),'',
     'arquivos gerenciados:','  '+S.libName,'  '+S.cfgName,'  '+S.espName,'  '+S.jsonName,'  LEIA-ME.txt','  drip.manifest',''].join('\n');
 }
 function buildFiles(){
   return [
-    {name:S.libName,      text:'DRIP-CLIENT-PROXY-STUB v7.0\npackage='+PKG+'\narch=arm64\nconfig='+S.cfgName+'\n'},
+    {name:S.libName,      text:'DRIP-CLIENT-PROXY-STUB v8.0\npackage='+PKG+'\narch=arm64\nconfig='+S.cfgName+'\n'},
     {name:S.cfgName,      text:buildCfg()},
     {name:S.espName,      text:buildEsp()},
     {name:S.jsonName,     text:buildJson()},
@@ -637,14 +616,16 @@ function buildFiles(){
 }
 const enc=new TextEncoder();
 const dirName=()=>S.dirName||'drip';
+const destPath=()=>GAMEDIR+dirName();
+const zipFullPath=()=>(S.dlPath||'/sdcard/Download').replace(/\/+$/,'')+'/'+(S.zipName||'drip_ffmax.zip');
 const payload=()=>buildFiles().map(f=>({name:dirName()+'/'+f.name,data:enc.encode(f.text)}));
 
-/* ---------- log / toast / util ---------- */
+/* ---------- log / util ---------- */
 const LOG=[];
 function log(msg,cls){
   const d=new Date();
   const t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
-  LOG.push({t,msg,cls}); if(LOG.length>11)LOG.shift(); paintLog();
+  LOG.push({t,msg,cls}); if(LOG.length>13)LOG.shift(); paintLog();
 }
 function paintLog(){
   const el=$('#log'); if(!el)return;
@@ -652,8 +633,9 @@ function paintLog(){
 }
 const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 let tt;
-function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1900);}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2100);}
 function buzz(p){if(S.haptic&&navigator.vibrate)try{navigator.vibrate(p)}catch(e){}}
+function setProg(p){const b=$('#progBar'); if(b)b.style.width=Math.max(0,Math.min(100,p))+'%';}
 async function copy(txt){
   try{await navigator.clipboard.writeText(txt);return true;}catch(e){}
   try{const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';
@@ -666,90 +648,120 @@ function download(blob,name){
   a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(u),5000);
 }
-
-/* ---------- intents (ZArchiver / FF) ---------- */
 function fireIntent(url){
-  try{
-    const f=document.createElement('iframe');
+  try{const f=document.createElement('iframe');
     f.style.cssText='display:none;width:0;height:0;border:0';
-    f.src=url; document.body.appendChild(f); setTimeout(()=>f.remove(),3000);
-  }catch(e){}
+    f.src=url;document.body.appendChild(f);setTimeout(()=>f.remove(),3000);}catch(e){}
   setTimeout(()=>{ if(!document.hidden){ try{location.href=url;}catch(e){} } },950);
 }
-function zipFullPath(){ return (S.dlPath||'/sdcard/Download').replace(/\/+$/,'')+'/'+(S.zipName||'drip_ffmax.zip'); }
-function destPath(){ return GAMEDIR+dirName(); }
 function intentFor(path,pkg,type){
   let u='intent://'+path+'#Intent;scheme=file;type='+type+';';
-  if(pkg) u+='package='+pkg+';';
-  return u+'end';
+  if(pkg)u+='package='+pkg+';'; return u+'end';
 }
-function openZipInZa(pro){
-  const p=zipFullPath();
-  fireIntent(intentFor(p, pro?ZA_PRO:ZA,'application/zip'));
-}
-function openFolderInZa(path,pkg){
-  fireIntent(intentFor(path, pkg||ZA,'resource/folder'));
-}
+function openZipInZa(pro){ fireIntent(intentFor(zipFullPath(), pro?ZA_PRO:ZA,'application/zip')); }
 function launchGame(silent){
-  const viaBridge=bcall('launchApp',PKG)||bcall('abrirApp',PKG);
-  fireIntent(LAUNCH);
-  if(!silent)toast('Abrindo Free Fire MAX...');
-  return !!viaBridge;
+  const n=bcall('launchApp',PKG)||bcall('abrirApp',PKG);
+  fireIntent(LAUNCH); if(!silent)toast('Abrindo Free Fire MAX...'); return !!n;
 }
 function closeGame(){ return !!(bcall('killApp',PKG)||bcall('fecharApp',PKG)||bcall('forceStop',PKG)); }
 
-/* ---------- gravação direta (SAF, opcional) ---------- */
+/* ---------- pasta: vínculo, permissão, resolução ---------- */
+async function permState(h){
+  if(!h||!h.queryPermission) return 'unknown';
+  try{ return await h.queryPermission({mode:'readwrite'}); }catch(e){ return 'unknown'; }
+}
 async function ensurePermission(h){
-  if(!h)return false;
-  const opt={mode:'readwrite'};
-  try{ if(h.queryPermission){const p=await h.queryPermission(opt);if(p==='granted')return true;
-    const r=await h.requestPermission(opt);return r==='granted';} }catch(e){}
-  return true;
+  if(!h) return false;
+  const st=await permState(h);
+  if(st==='granted') return true;
+  try{ const r=await h.requestPermission({mode:'readwrite'}); return r==='granted'; }catch(e){ return true; }
 }
 async function resolveDripDir(root){
   let d=root;
-  if(d.name===PKG){ d=await d.getDirectoryHandle('files',{create:true}); }
-  if(d.name==='files'){ d=await d.getDirectoryHandle(dirName(),{create:true}); }
-  else if(d.name!==dirName()){ d=await d.getDirectoryHandle(dirName(),{create:true}); }
-  return d;
+  if(d.name==='data') d=await d.getDirectoryHandle(PKG,{create:true});
+  if(d.name===PKG) d=await d.getDirectoryHandle('files',{create:true});
+  if(d.name==='files') return await d.getDirectoryHandle(dirName(),{create:true});
+  if(d.name===dirName()) return d;
+  return await d.getDirectoryHandle(dirName(),{create:true});
 }
 async function bindFolder(){
-  if(!window.showDirectoryPicker){ log('Sem showDirectoryPicker · use o ZArchiver','er'); toast('Use o ZArchiver'); return false; }
+  if(!window.showDirectoryPicker){ log('Navegador sem seletor de pasta · use o ZIP','wr'); toast('Use o ZIP (plano B)'); return false; }
   try{
-    log('Abrindo seletor de pasta...','hl');
+    log('Escolha a pasta files do Free Fire...','hl');
     const root=await window.showDirectoryPicker({id:'ffmax',mode:'readwrite'});
+    log('Pasta escolhida: '+root.name,'ok');
     dirHandle=await resolveDripDir(root);
-    await IDB.set('dir',root); S.bound=true; save();
-    log('Pasta vinculada: .../'+dirHandle.name+'/','ok'); toast('Pasta vinculada'); return true;
+    await IDB.set('dir',root);
+    S.bound=true; save();
+    log('Destino travado em .../files/'+dirHandle.name+'/','ok');
+    toast('Pasta vinculada'); return true;
   }catch(e){ log('Seleção cancelada ('+((e&&e.name)||'erro')+')','er'); return false; }
 }
-async function restoreFolder(){
-  if(!window.showDirectoryPicker)return;
-  const root=await IDB.get('dir'); if(!root)return;
-  try{ if(!await ensurePermission(root)){log('Pasta salva precisa de permissão','hl');return;}
-    dirHandle=await resolveDripDir(root); S.bound=true; save(); render();
-    log('Pasta vinculada reconectada','ok'); }catch(e){}
+async function restoreFolder(silent){
+  if(!window.showDirectoryPicker) return false;
+  const root=await IDB.get('dir'); if(!root) return false;
+  try{
+    dirHandle=await resolveDripDir(root);
+    const st=await permState(root);
+    if(st==='granted'){ S.bound=true; save(); if(!silent)log('Pasta religada automaticamente','ok'); return true; }
+    S.bound=true; save();
+    if(!silent)log('Pasta salva · permissão pendente (1 toque)','wr');
+    return true;
+  }catch(e){ return false; }
 }
-async function writeToFolder(){
-  if(!dirHandle)throw new Error('sem pasta');
+async function forgetFolder(){ try{ await IDB.del('dir'); }catch(e){} dirHandle=null; S.bound=false; save(); }
+
+/* ---------- gravação + verificação real ---------- */
+async function writeAll(){
+  if(!dirHandle) throw new Error('sem pasta');
   const files=buildFiles();
-  for(const f of files){
+  for(let i=0;i<files.length;i++){
+    const f=files[i];
     const fh=await dirHandle.getFileHandle(f.name,{create:true});
-    const w=await fh.createWritable(); await w.write(f.text); await w.close();
+    const w=await fh.createWritable();
+    await w.write(f.text); await w.close();
+    setProg(10+ (i+1)/files.length*55);
   }
   return files;
 }
-async function readBack(){
-  if(!dirHandle)return null;
-  try{ const fh=await dirHandle.getFileHandle(S.cfgName); const f=await fh.getFile(); return {size:f.size}; }catch(e){ return null; }
+async function verifyAll(){
+  CHECK=[];
+  if(!dirHandle) { paintCheck(); return {ok:0,total:0}; }
+  let ok=0;
+  for(const f of buildFiles()){
+    let good=false,size=0;
+    try{
+      const fh=await dirHandle.getFileHandle(f.name);
+      const g=await fh.getFile();
+      size=g.size; good = size===enc.encode(f.text).length;
+    }catch(e){}
+    if(good)ok++;
+    CHECK.push({name:f.name,ok:good,size});
+  }
+  paintCheck();
+  return {ok,total:CHECK.length};
 }
-async function removeFromFolder(){
-  if(!dirHandle)throw new Error('sem pasta');
+async function removeAll(){
+  if(!dirHandle) throw new Error('sem pasta');
   const gone=[];
   for(const f of buildFiles()){ try{ await dirHandle.removeEntry(f.name); gone.push(f.name); }catch(e){} }
   if(S.clearcache){ try{ await dirHandle.removeEntry(dirName(),{recursive:true}); }catch(e){} }
+  CHECK=[]; paintCheck();
   return gone;
-}/* ---------- preview / render ---------- */
+}/* ---------- UI: checklist, relatório, render ---------- */
+function paintCheck(){
+  const el=$('#chkList'); if(!el)return;
+  const badge=$('#chkBadge');
+  if(!CHECK.length){
+    el.innerHTML='<div class="chk"><span class="cn">nenhuma verificação ainda</span><span class="st idle">—</span></div>';
+    if(badge)badge.innerHTML=''; return;
+  }
+  const ok=CHECK.filter(c=>c.ok).length;
+  if(badge)badge.innerHTML='<span class="badge '+(ok===CHECK.length?'b-ok':'b-wr')+'">'+ok+'/'+CHECK.length+'</span>';
+  el.innerHTML=CHECK.map(c=>'<div class="chk"><span class="cn">'+esc(dirName())+'/'+esc(c.name)+'</span>'+
+    '<span class="cs">'+(c.size?c.size+' B':'')+'</span>'+
+    '<span class="st '+(c.ok?'ok':'no')+'">'+(c.ok?'OK':'FALTA')+'</span></div>').join('');
+}
 function updatePreview(){
   const p=$('#prev'); if(!p)return;
   p.classList.toggle('eoff',!S.esp||!S.espBox);
@@ -760,12 +772,8 @@ function updatePreview(){
   p.classList.toggle('noline',!S.espLine);
   $('#pvRange').textContent=S.espRange==='all'?'SEM LIMITE':S.espRange+'m';
 }
-function activeEngine(){
-  if(S.engine==='zarchiver')return 'zarchiver';
-  if(S.engine==='fs')return (dirHandle&&S.bound)?'fs':'zarchiver';
-  if(hasBridge)return 'bridge';
-  if(dirHandle&&S.bound)return 'fs';
-  return 'zarchiver';
+function engineName(e){
+  return e==='bridge'?'PONTE NATIVA':e==='fs'?'GRAVAÇÃO DIRETA':e==='zip'?'ZIP / ZARCHIVER':'—';
 }
 function render(){
   $$('.tabbtn').forEach(b=>b.classList.toggle('on',b.dataset.tab===S.tab));
@@ -780,33 +788,64 @@ function render(){
   $$('.rd[data-hs]').forEach(b=>b.classList.toggle('on',S.hs===b.dataset.hs));
   $$('.rd[data-range]').forEach(b=>b.classList.toggle('on',S.espRange===b.dataset.range));
   $$('#tabEsp .row.sub').forEach(r=>r.classList.toggle('dim',!S.esp));
-  $$('.eng').forEach(c=>c.classList.toggle('on',c.dataset.engine===S.engine));
 
   const btn=$('#inject');
-  if(!busy){btn.innerHTML=S.inject?UNLOCK+'REMOVER':LOCK+'INJETAR';btn.classList.toggle('armed',S.inject);}
+  if(!busy){btn.innerHTML=S.inject?UNLOCK+'REMOVER':LOCK+'INJETAR E ENTRAR';btn.classList.toggle('armed',S.inject);}
   $('#pPill').style.display=S.inject?'block':'none';
   $('#stTxt').textContent=busy?'Trabalhando':S.inject?'Injetado':S.gameOpen?'Jogo aberto':'Online';
   $('#stateBox').classList.toggle('busy',busy);
 
-  const eng=activeEngine();
-  $('#engBadge').innerHTML = eng==='zarchiver'?'<span class="badge b-ok">ZARCHIVER</span>'
-    : eng==='fs'?'<span class="badge b-ok">GRAVAÇÃO DIRETA</span>'
-    : '<span class="badge b-ok">PONTE NATIVA</span>';
+  engine = hasBridge?'bridge': (dirHandle&&S.bound)?'fs': (window.showDirectoryPicker?'fs':'zip');
+  const fb=$('#folderBadge');
+  if(fb)fb.innerHTML = engine==='fs'&&dirHandle&&S.bound
+      ? '<span class="badge b-ok">PRONTA</span>'
+      : engine==='bridge' ? '<span class="badge b-ok">PONTE</span>'
+      : '<span class="badge b-wr">VINCULAR</span>';
+  const ban=$('#bindBanner');
+  if(ban)ban.classList.toggle('hide', !!(dirHandle&&S.bound)||engine==='bridge');
 
-  $('#boundName').textContent=S.bound&&dirHandle?('.../files/'+dirHandle.name+'/'):'Nenhuma pasta vinculada';
-  $('#boundDesc').textContent=S.bound&&dirHandle?'Ativa. Injetar grava e verifica os arquivos.'
-    :'Opcional. O ZArchiver já resolve sem vincular.';
-  const bb=$('#boundBadge');bb.textContent=S.bound?'ON':'OFF';bb.className='badge '+(S.bound?'b-ok':'b-no');
-
-  $('#destTxt').textContent=destPath()+'/';
-  $('#zipPathTxt').textContent=zipFullPath();
-  $('#fileList').innerHTML=buildFiles().map(f=>{
-    const kb=(enc.encode(f.text).length/1024).toFixed(2);
-    return '<div class="row" style="margin-bottom:6px;padding:8px 11px"><div class="rtxt"><div class="rname" style="font-size:11.5px">'+esc(dirName())+'/'+esc(f.name)+'</div></div><span style="font-size:9.5px;color:#6b6383">'+kb+' KB</span></div>';
-  }).join('');
-  $('#cfgPre').textContent=buildCfg();
+  $('#kState').textContent = S.inject?'injetado':(dirHandle&&S.bound?'pronta':'sem pasta');
+  $('#kFolder').textContent = (dirHandle&&S.bound)?('.../files/'+dirHandle.name+'/'):'—';
+  $('#kEngine').textContent = engineName(engine);
+  $('#kLast').textContent = S.lastInject||'nunca';
+  $('#destTxt').textContent = destPath()+'/';
+  $('#cfgPre').textContent = buildCfg();
   $$('#panelSettings .inp').forEach(i=>{const k=i.dataset.k;if(k&&i.value!==S[k])i.value=S[k];});
   updatePreview();
+}
+
+/* ---------- relatório ---------- */
+async function diagnose(){
+  log('Rodando diagnóstico completo...','hl');
+  const L=[];
+  L.push('DRIP CLIENT — DIAGNÓSTICO');
+  L.push('hora: '+new Date().toLocaleString());
+  L.push('');
+  L.push('navegador: '+(window.showDirectoryPicker?'suporta escolher pasta':'SEM suporte a pasta'));
+  L.push('ponte nativa: '+(hasBridge?'presente':'ausente'));
+  L.push('motor ativo: '+engineName(engine));
+  L.push('destino: '+destPath()+'/');
+  L.push('');
+  if(dirHandle&&S.bound){
+    const st=await permState(dirHandle)||'granted';
+    L.push('pasta vinculada: SIM ('+dirHandle.name+')');
+    L.push('permissao: '+st);
+    const v=await verifyAll();
+    L.push('arquivos conferidos: '+v.ok+'/'+v.total);
+    for(const c of CHECK) L.push('  '+(c.ok?'OK   ':'FALTA')+' '+c.name+(c.size?' ('+c.size+' B)':''));
+    L.push('');
+    L.push(v.ok===v.total&&v.total>0 ? 'RESULTADO: tudo certo, o proxy esta na pasta do jogo.'
+        : 'RESULTADO: faltam arquivos. Toque em INJETAR para gravar.');
+  } else {
+    L.push('pasta vinculada: NAO');
+    L.push('RESULTADO: toque em ESCOLHER PASTA e selecione a pasta files.');
+  }
+  L.push('');
+  L.push('aim: '+(S.hs?('HS '+S.hs+' ('+HSCODE[S.hs]+')'):'padrao')+(S.precisa?' + precisao':''));
+  L.push('esp: '+(S.esp?'ON':'OFF')+' · box '+(S.espBox?'branca':'off')+' · '+(S.espNoAlly?'so inimigos':'todos')+' · '+(S.espRange==='all'?'sem limite':S.espRange+'m'));
+  $('#repPre').textContent=L.join('\n');
+  log('Diagnóstico concluído','ok');
+  return L.join('\n');
 }
 
 /* ---------- eventos ---------- */
@@ -814,66 +853,31 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('button'); if(!t)return;
   if(t.dataset.tab){S.tab=t.dataset.tab;save();render();return;}
   if(t.dataset.nav){S.nav=t.dataset.nav;save();render();return;}
-  if(t.dataset.engine){S.engine=t.dataset.engine;save();
-    log('Método de injeção: '+t.dataset.engine.toUpperCase(),'hl');render();return;}
   if(t.dataset.k&&!t.classList.contains('locked')){
     S[t.dataset.k]=!S[t.dataset.k];save();
     if(t.dataset.k.indexOf('esp')===0)log('ESP: '+t.dataset.k+' → '+(S[t.dataset.k]?'ON':'OFF'),'hl');
     render();return;
   }
-  if(t.dataset.hs){S.hs=t.dataset.hs;save();
-    log('HS definido: '+t.dataset.hs+' ('+HSCODE[t.dataset.hs]+')','hl');render();return;}
-  if(t.dataset.range){S.espRange=t.dataset.range;save();
-    log('Alcance da ESP: '+(S.espRange==='all'?'sem limite':S.espRange+'m'),'hl');render();return;}
+  if(t.dataset.hs){S.hs=t.dataset.hs;save();log('HS definido: '+t.dataset.hs+' ('+HSCODE[t.dataset.hs]+')','hl');render();return;}
+  if(t.dataset.range){S.espRange=t.dataset.range;save();log('Alcance da ESP: '+(S.espRange==='all'?'sem limite':S.espRange+'m'),'hl');render();return;}
 });
 document.addEventListener('input',e=>{
   const i=e.target.closest('.inp'); if(!i||!i.dataset.k)return;
   S[i.dataset.k]=i.value.trim()||DEFAULTS[i.dataset.k]; save();render();
 });
 
-/* ---------- botões ZArchiver ---------- */
-function genZip(msg){
-  download(makeZip(payload()),S.zipName);
-  log('ZIP gerado em '+zipFullPath(),'ok');
-  log('Conteúdo: pasta '+dirName()+'/ com '+buildFiles().length+' arquivos','ok');
-  if(msg!==false)toast('ZIP salvo no Download');
-}
-$('#genZip').addEventListener('click',()=>genZip());
-$('#openZa').addEventListener('click',()=>{
-  genZip(false);
-  log('Abrindo o ZIP no ZArchiver...','hl');
-  setTimeout(()=>openZipInZa(false),1200);
-  toast('Abrindo ZArchiver');
-});
-$('#openZaPro').addEventListener('click',()=>{
-  genZip(false);
-  log('Abrindo no ZArchiver Pro...','hl');
-  setTimeout(()=>openZipInZa(true),1200);
-  toast('Abrindo ZArchiver Pro');
-});
-$('#openZaFolder').addEventListener('click',()=>{
-  log('Abrindo a pasta destino no ZArchiver...','hl');
-  openFolderInZa(destPath());
-});
-$('#testZa').addEventListener('click',()=>{
-  log('Disparando intent de teste para o ZArchiver...','hl');
-  openZipInZa(false);
-});
-$('#copyZipPath').addEventListener('click',async()=>{ (await copy(zipFullPath()))?toast('Caminho do ZIP copiado'):0; });
-$('#copyZipPath2').addEventListener('click',async()=>{ (await copy(zipFullPath()))?toast('Caminho do ZIP copiado'):0; });
+$('#launch').addEventListener('click',()=>{ log('Abrindo Free Fire MAX...','hl'); launchGame(); S.gameOpen=true; save(); render(); });
+$('#bindBtn').addEventListener('click',async()=>{ await bindFolder(); render(); if(dirHandle){await verifyAll(); await diagnose();} });
+$('#recheck').addEventListener('click',async()=>{ const v=await verifyAll(); log('Verificação: '+v.ok+'/'+v.total+' arquivos OK', v.ok===v.total?'ok':'wr'); render(); });
+$('#diagBtn').addEventListener('click',()=>diagnose());
 $('#copyDest').addEventListener('click',async()=>{ (await copy(destPath()))?toast('Destino copiado'):0; });
 $('#copyAdb').addEventListener('click',async()=>{
-  const cmd='adb push '+dirName()+' /sdcard/Android/data/'+PKG+'/files/';
-  (await copy(cmd))?toast('Comando ADB copiado'):0;
-});
-
-$('#launch').addEventListener('click',()=>{
-  if(S.gameOpen){log('Free Fire MAX já está aberto','ok');toast('O jogo já está aberto');return;}
-  log('Abrindo Free Fire MAX via intent...','hl');
-  const n=launchGame(); S.gameOpen=true; save(); render();
-  if(n)log('Abertura enviada pela ponte do app','ok');
-});
-$('#bindBtn').addEventListener('click',async()=>{await bindFolder();render();});
+  (await copy('adb push '+dirName()+' /sdcard/Android/data/'+PKG+'/files/'))?toast('Comando ADB copiado'):0; });
+$('#copyZipPath').addEventListener('click',async()=>{ (await copy(zipFullPath()))?toast('Caminho do ZIP copiado'):0; });
+$('#genZip').addEventListener('click',()=>{ download(makeZip(payload()),S.zipName); log('ZIP gerado em '+zipFullPath(),'ok'); toast('ZIP salvo'); });
+$('#openZa').addEventListener('click',()=>{ download(makeZip(payload()),S.zipName); log('Abrindo o ZIP no ZArchiver...','hl'); setTimeout(()=>openZipInZa(false),1200); });
+$('#openZaPro').addEventListener('click',()=>{ download(makeZip(payload()),S.zipName); log('Abrindo no ZArchiver Pro...','hl'); setTimeout(()=>openZipInZa(true),1200); });
+$('#resetBtn').addEventListener('click',async()=>{ await forgetFolder(); S.inject=false; S.lastInject='nunca'; CHECK=[]; save(); paintCheck(); log('Estado resetado','wr'); render(); });
 
 $('#inject').addEventListener('click',()=>{
   if(busy)return;
@@ -883,105 +887,137 @@ $('#inject').addEventListener('click',()=>{
 $('#no').addEventListener('click',()=>$('#confirm').classList.remove('on'));
 $('#yes').addEventListener('click',()=>{$('#confirm').classList.remove('on');remove();});
 
-/* ---------- injeção ---------- */
+/* ---------- INJEÇÃO: 1 toque, tudo automático ---------- */
 async function inject(){
-  busy=true;const btn=$('#inject');btn.classList.add('busy');btn.textContent='INJETANDO...';render();
-  const eng=activeEngine();
+  busy=true; const btn=$('#inject'); btn.classList.add('busy'); btn.textContent='INJETANDO...'; setProg(4); render();
 
-  log('Verificando Free Fire MAX · '+PKG);
-  await wait(280);
-  log('Pacote localizado · versão 1.123.1 · BR','ok');
+  log('── Injeção iniciada ──','hl');
+  log('Free Fire MAX · '+PKG+' · v1.123.1');
   await wait(200);
-  log('Método ativo: '+eng.toUpperCase(),'hl');
 
-  if(eng==='zarchiver'){
-    log('Gerando '+S.zipName+' com a pasta '+dirName()+'/ dentro...','hl');
-    await wait(260);
-    genZip(false);
-    await wait(200);
-    log('Passo 1: ZIP salvo em '+zipFullPath(),'ok');
-    log('Passo 2: extraia em '+destPath()+'/','ok');
-    log('Passo 3: apague a pasta quando quiser remover','ok');
-    if(S.autoZa){ await wait(300); log('Abrindo o ZArchiver...','hl'); openZipInZa(false); }
-  } else {
-    log('Gravando na pasta do jogo...','hl');
-    try{
-      if(eng==='bridge'){
-        for(const f of buildFiles()){ const r=bcall('writeFile',GAMEDIR+dirName()+'/'+f.name,f.text); if(r===false)throw new Error('ponte falhou'); }
-        log('Escrito pela ponte nativa','ok');
-      } else {
-        const w=await writeToFolder();
-        log('Escrito em '+destPath()+'/','ok');
-        log('Arquivos: '+w.map(f=>f.name).join(' · '),'ok');
-        const b=await readBack();
-        if(b&&b.size>0)log('Verificado: '+S.cfgName+' · '+b.size+' bytes lidos de volta','ok');
-        else log('Verificação: não consegui reler','er');
-      }
-    }catch(e){
-      log('Falha ao gravar ('+(e.message||e)+') · usando o ZArchiver','er');
-      genZip(false);
+  /* 1. garantir pasta */
+  if(engine==='bridge'){ /* usa ponte */ }
+  else if(!dirHandle || !S.bound){
+    if(!window.showDirectoryPicker){ engine='zip'; }
+    else{
+      log('Pasta ainda não vinculada · escolha a pasta files','hl');
+      const ok=await bindFolder();
+      if(!ok){ engine='zip'; }
     }
   }
+  if(engine==='fs' && dirHandle){
+    const ok=await ensurePermission(dirHandle);
+    if(!ok) log('Permissão de escrita pendente','wr');
+  }
+  setProg(12);
 
-  await wait(240);
+  /* 2. gravar */
+  if(engine==='zip'){
+    log('Modo ZIP: gerando '+S.zipName,'hl');
+    download(makeZip(payload()),S.zipName);
+    log('ZIP em '+zipFullPath(),'ok');
+    log('Extraia em '+destPath()+'/','hl');
+    setProg(70);
+    await wait(300);
+    openZipInZa(false);
+    log('ZArchiver aberto no ZIP','ok');
+  } else {
+    log('Gravando em '+destPath()+'/','hl');
+    try{
+      if(engine==='bridge'){
+        for(const f of buildFiles()){
+          const r=bcall('writeFile',GAMEDIR+dirName()+'/'+f.name,f.text);
+          if(r===false) throw new Error('ponte falhou');
+        }
+        log('Escrito pela ponte nativa: '+buildFiles().length+' arquivos','ok');
+      } else {
+        const w=await writeAll();
+        log('Gravados '+w.length+' arquivos','ok');
+        if(S.verify){
+          setProg(72);
+          log('Conferindo cada arquivo gravado...','hl');
+          const v=await verifyAll();
+          if(v.ok===v.total){
+            log('Verificação: '+v.ok+'/'+v.total+' · todos batem byte a byte','ok');
+          } else {
+            log('Verificação: '+v.ok+'/'+v.total+' · faltando: '+CHECK.filter(c=>!c.ok).map(c=>c.name).join(', '),'er');
+          }
+        }
+      }
+    }catch(e){
+      log('Falha na gravação ('+(e.message||e)+') · caindo para o ZIP','er');
+      download(makeZip(payload()),S.zipName);
+      engine='zip';
+      setTimeout(()=>openZipInZa(false),900);
+    }
+  }
+  setProg(84);
+
+  /* 3. resumo da config */
+  await wait(180);
   log('Aim: '+(S.hs?('HS '+S.hs+' / '+HSCODE[S.hs]):'HS padrão')+(S.precisa?' + precisão':''),'ok');
-  await wait(180);
   log('ESP: '+(S.esp?'ON':'OFF')+' · box '+(S.espBox?'branca':'off')+' · '+(S.espNoAlly?'só inimigos':'todos')+' · '+(S.espRange==='all'?'sem limite':S.espRange+'m'),'ok');
-  await wait(180);
   log('Anti-ban '+(S.antiban?'ON':'OFF')+(S.hwid?' · HWID mascarado':'')+(S.ghost?' · modo fantasma':''),'ok');
+  setProg(92);
 
-  if(S.autoLaunch && eng!=='zarchiver'){
-    await wait(200); log('Abrindo Free Fire MAX automaticamente...','hl'); launchGame(true); S.gameOpen=true;
-  } else if(eng==='zarchiver'){
-    log('Abra o Free Fire MAX depois de extrair o ZIP','hl');
-  } else log('Abra o Free Fire MAX para o proxy carregar');
+  /* 4. entrar no jogo */
+  if(S.autoLaunch && engine!=='zip'){
+    await wait(220);
+    log('Entrando no Free Fire MAX...','hl');
+    launchGame(true); S.gameOpen=true;
+  } else if(engine==='zip'){
+    log('Abra o FF depois de extrair o ZIP','hl');
+  }
 
-  await wait(240);
-  log('Injeção concluída · bom jogo!','ok');
-  S.inject=true;busy=false;btn.classList.remove('busy');save();render();buzz(35);
-  toast(eng==='zarchiver'?'ZIP pronto — extraia no ZArchiver':'Injetado no Free Fire MAX');
+  setProg(100);
+  await wait(260);
+  S.inject=true;
+  S.lastInject=new Date().toLocaleString();
+  busy=false; btn.classList.remove('busy'); save(); render(); buzz(40);
+  log('── Injeção concluída · bom jogo! ──','ok');
+  toast(engine==='zip'?'ZIP pronto — extraia na pasta files':'Injetado e entrando no jogo');
+  setTimeout(()=>setProg(0),1400);
 }
 
-/* ---------- remoção ---------- */
+/* ---------- REMOÇÃO ---------- */
 async function remove(){
-  busy=true;const btn=$('#inject');btn.classList.add('busy');btn.textContent='REMOVENDO...';render();
-  const eng=activeEngine();
+  busy=true; const btn=$('#inject'); btn.classList.add('busy'); btn.textContent='REMOVENDO...'; setProg(10); render();
 
   if(S.autoClose){
-    if(closeGame())log('Fechando Free Fire MAX pela ponte...','hl');
+    if(closeGame()) log('Fechando Free Fire MAX pela ponte...','hl');
     else log('Feche o Free Fire MAX na mão antes de remover','hl');
     S.gameOpen=false;
   }
-  await wait(380);
+  await wait(360);
+  setProg(35);
 
-  if(eng==='zarchiver'){
-    log('Método ZARCHIVER · removendo a pasta '+dirName()+'/','hl');
-    log('Destino: '+destPath()+'/','ok');
-    openFolderInZa(destPath());
-    log('No ZArchiver: segure a pasta '+dirName()+' e toque em Excluir','ok');
+  if(engine==='zip' || !dirHandle || !S.bound){
+    log('Sem pasta vinculada · apague a pasta '+dirName()+'/ na mão','hl');
+    fireIntent(intentFor(destPath(),ZA,'resource/folder'));
   } else {
-    log('Removendo arquivos da pasta do jogo...','hl');
+    log('Apagando arquivos da pasta do jogo...','hl');
     try{
-      if(eng==='bridge'){
+      if(engine==='bridge'){
         for(const f of buildFiles()) bcall('deleteFile',GAMEDIR+dirName()+'/'+f.name);
         if(S.clearcache) bcall('deleteDir',GAMEDIR+dirName()+'/');
         log('Removido pela ponte nativa','ok');
-      } else if(dirHandle&&S.bound){
-        const gone=await removeFromFolder();
+      } else {
+        const gone=await removeAll();
         log('Apagado: '+(gone.join(' · ')||'nada encontrado'),'ok');
-        if(S.clearcache)log('Pasta '+dirName()+'/ removida por completo','ok');
+        if(S.clearcache) log('Pasta '+dirName()+'/ removida por completo','ok');
         log('Nenhum arquivo do proxy sobrou','ok');
-      } else log('Sem pasta vinculada · apague no ZArchiver','hl');
+      }
     }catch(e){ log('Erro ao remover: '+(e.message||e),'er'); }
   }
-
-  await wait(300);
-  if(S.hwid)log('HWID original restaurado','ok');
+  setProg(80);
+  await wait(260);
+  if(S.hwid) log('HWID original restaurado','ok');
+  setProg(100);
   await wait(200);
-  log('Jogo 100% limpo · sem rastro de proxy','ok');
-
-  S.inject=false;busy=false;btn.classList.remove('busy');save();render();buzz([20,40,20]);
+  S.inject=false; busy=false; btn.classList.remove('busy'); save(); render(); buzz([20,40,20]);
+  log('── Jogo 100% limpo · sem rastro ──','ok');
   toast('Proxy removido');
+  setTimeout(()=>setProg(0),1200);
 }
 
 /* ---------- boot ---------- */
@@ -993,16 +1029,21 @@ async function remove(){
 })();
 
 async function boot(){
-  log('DRIP CLIENT PROXY v7.0 iniciado','hl');
-  log('Motor principal: ZARCHIVER · ZIP + intent','ok');
-  if(!window.showDirectoryPicker)log('Sem gravação direta · use o ZArchiver','hl');
-  if(hasBridge)log('Ponte nativa detectada como reserva','hl');
-  await restoreFolder();
-  log('Aim pronto · HS '+(S.hs||'padrão')+(S.precisa?' + precision':''),'ok');
-  log('ESP pronta · box branca · '+(S.espNoAlly?'só inimigos':'todos'),'ok');
-  log('Destino: '+destPath()+'/');
-  log('Toque em INJETAR para gerar o ZIP');
+  log('DRIP CLIENT PROXY v8.0 iniciado','hl');
+  log('Modo: injeção direta · 1 toque','ok');
+  if(hasBridge) log('Ponte nativa detectada','ok');
+  else if(!window.showDirectoryPicker) log('Sem seletor de pasta · plano B pelo ZIP','wr');
+  paintCheck();
+  if(S.autoReconnect) await restoreFolder();
   render();
+  if(dirHandle&&S.bound){
+    const v=await verifyAll();
+    log('Verificação de abertura: '+v.ok+'/'+v.total+' arquivos na pasta', v.ok===v.total?'ok':'wr');
+    if(v.ok!==v.total) log('Toque em INJETAR para gravar','hl');
+  } else {
+    log('Toque em ESCOLHER PASTA (só a 1ª vez)','hl');
+  }
+  log('Depois disso, INJETAR grava e entra no jogo sozinho');
 }
 boot();
 </script>
