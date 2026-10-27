@@ -52,6 +52,8 @@
   .sw.on{background:#3b1178;border-color:rgba(192,132,252,.55)}
   .sw.on i{left:21px;background:#e9d5ff}
   .sw.locked{cursor:default}
+  .sw.live.on{background:#14532d;border-color:rgba(74,222,128,.6)}
+  .sw.live.on i{background:#bbf7d0}
   .rd{width:22px;height:22px;border-radius:50%;border:2px solid #352b52;
       background:transparent;cursor:pointer;flex:0 0 auto;padding:0;display:flex;
       align-items:center;justify-content:center}
@@ -110,10 +112,15 @@
   .fldrow button{flex:0 0 auto;background:#241a3c;border:1px solid rgba(192,132,252,.35);
        color:#e9d5ff;font-size:9.5px;letter-spacing:.8px;padding:0 11px;border-radius:9px;
        cursor:pointer;font-family:inherit}
+  .ports{display:flex;gap:7px}
+  .ports .tinp{flex:1;font-size:11px;padding:9px 10px;text-align:center}
   .codeinp{width:100%;background:#0c0817;border:1.6px solid rgba(192,132,252,.45);color:#fff;
        border-radius:10px;padding:13px 11px;font-family:ui-monospace,Menlo,monospace;
        font-size:20px;letter-spacing:8px;text-align:center;outline:none}
   .codeinp:focus{border-color:#c084fc;box-shadow:0 0 0 3px rgba(192,132,252,.12)}
+  .codeinp.need{border-color:#facc15;box-shadow:0 0 0 4px rgba(250,204,21,.16);animation:shk .4s}
+  @keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}
+    60%{transform:translateX(5px)}80%{transform:translateX(-2px)}}
   .fhint{font-size:9.5px;color:#6b6383;margin-top:6px;text-align:center;letter-spacing:.2px}
   .scan{height:3px;background:#241a3c;border-radius:3px;overflow:hidden;margin-top:10px;display:none}
   .scan.on{display:block}
@@ -166,6 +173,16 @@
   .banner b{font-weight:500;color:#fff}
   .big{font-size:11.5px;color:#b9b0d4;line-height:1.55}
   .big b{color:#c084fc;font-weight:500}
+  /* ---- proxy card ---- */
+  .proxycard{background:linear-gradient(180deg,#130d22,#0e0a1a);
+       border:1px solid rgba(168,85,247,.16);border-radius:13px;padding:11px 13px}
+  .proxycard.on{border-color:rgba(74,222,128,.35);
+       background:linear-gradient(180deg,#0f1f16,#0c1611)}
+  .proxyhead{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;
+       color:#8b83a6;margin-bottom:9px}
+  .proxycard.on .proxyhead{color:#4ade80}
+  .proxyhead .pdot{width:7px;height:7px;border-radius:50%;background:currentColor;
+       box-shadow:0 0 8px currentColor;flex:0 0 auto}
   /* ---- ESP preview ---- */
   .preview{margin-top:4px;border:1px solid rgba(168,85,247,.13);background:#0c0817;
         border-radius:13px;padding:10px 11px}
@@ -227,7 +244,7 @@
       <div class="htitle">DRIP <b>CLIENT</b></div>
       <div class="hsub">ADB · WI-FI</div>
     </div>
-    <div class="online err" id="stateBox"><span class="dot"></span><span id="stTxt">Desconectado</span></div>
+    <div class="online err" id="stateBox"><span class="dot"></span><span id="stTxt">Proxy off</span></div>
   </div>
 
   <div class="tabs">
@@ -240,10 +257,16 @@
   <div class="body">
     <!-- ================= FUNÇÕES ================= -->
     <div id="tabFunc" style="display:none">
+      <div class="sec">ESTADO DO PROXY</div>
+      <div class="row">
+        <div class="rtxt"><div class="rname">Proxy ativo</div><div class="rdesc" id="fnProxyDesc">Só liga depois de parear o ADB.</div></div>
+        <button class="sw locked live" id="fnProxy"><i></i></button>
+      </div>
+
       <div class="sec">ESCUDO ANTI-BAN</div>
       <div class="row">
         <div class="rtxt"><div class="rname">Anti-ban total</div><div class="rdesc">Tudo por fora, sem tocar na memória do jogo.</div></div>
-        <button class="sw on locked" data-k="antiban"><i></i></button>
+        <button class="sw on locked"><i></i></button>
       </div>
       <div class="row">
         <div class="rtxt"><div class="rname">Bypass de HWID</div><div class="rdesc">Esconde o serial do aparelho.</div></div>
@@ -293,16 +316,26 @@
           <label>IP DO DISPOSITIVO</label>
           <div class="fldrow">
             <input class="tinp" id="ipInp" data-k="adbIp" inputmode="decimal"
-                   placeholder="192.168.0.100" value="">
+                   placeholder="ex: 192.168.0.10" value="">
             <button id="findIp">DETECTAR</button>
           </div>
+          <div class="fhint">É o mesmo IP que aparece na tela “Depuração por Wi-Fi”</div>
         </div>
 
         <div class="fld">
           <label>CÓDIGO DE PAREAMENTO</label>
           <input class="codeinp" id="codeInp" data-k="adbCode" inputmode="numeric"
                  maxlength="6" placeholder="Ex: 123456" value="">
-          <div class="fhint">A porta será descoberta automaticamente na rede local</div>
+          <div class="fhint">Toque em “Parear dispositivo com código” pra ver o código</div>
+        </div>
+
+        <div class="fld">
+          <label>PORTAS (OPCIONAL)</label>
+          <div class="ports">
+            <input class="tinp" id="pairPortInp" data-k="adbPairPort" inputmode="numeric" placeholder="pareamento">
+            <input class="tinp" id="connPortInp" data-k="adbConnPort" inputmode="numeric" placeholder="conexão">
+          </div>
+          <div class="fhint">Vazio = o app descobre sozinho na rede local</div>
         </div>
 
         <button class="btn red" id="pairBtn">PAREAR</button>
@@ -313,19 +346,20 @@
       <div class="card">
         <div class="steps">
           <div><b>1</b><span>Configurações › Opções do desenvolvedor</span></div>
-          <div><b>2</b><span>Ative <b>“Depuração sem fio”</b> — no mesmo Wi-Fi do celular</span></div>
-          <div><b>3</b><span>Toque em “Depuração sem fio” › <b>“Parear dispositivo com código”</b></span></div>
-          <div><b>4</b><span>Anote o código de <b>6 dígitos</b> que aparecer na tela</span></div>
-          <div><b>5</b><span>Digite aqui e toque em <b>PAREAR</b></span></div>
-          <div><b>6</b><span>Depois é só tocar em <b>ABRIR</b> — o FF MAX sobe sozinho</span></div>
+          <div><b>2</b><span>Ative <b>“Depuração por Wi-Fi”</b> — no mesmo Wi-Fi do celular</span></div>
+          <div><b>3</b><span>Toque em <b>“Parear dispositivo com código”</b></span></div>
+          <div><b>4</b><span>Anote o código de <b>6 dígitos</b> que aparecer</span></div>
+          <div><b>5</b><span>Digite o código aqui e toque em <b>PAREAR</b></span></div>
+          <div><b>6</b><span>O aparelho entra em <b>“Dispositivos pareados”</b> como <b>proxy</b></span></div>
+          <div><b>7</b><span>Depois é só tocar em <b>ABRIR</b> — o FF MAX sobe</span></div>
         </div>
       </div>
 
       <div class="sec">SESSÃO</div>
       <div class="card">
         <div class="kv"><span>Estado</span><span id="kState">desconectado</span></div>
-        <div class="kv"><span>Aparelho</span><span id="kDev">—</span></div>
-        <div class="kv"><span>IP</span><span id="kIp">—</span></div>
+        <div class="kv"><span>Pareado como</span><span id="kName">proxy</span></div>
+        <div class="kv"><span>IP do aparelho</span><span id="kIp">—</span></div>
         <div class="kv"><span>Porta de pareamento</span><span id="kPp">—</span></div>
         <div class="kv"><span>Porta de conexão</span><span id="kCp">—</span></div>
         <div class="kv"><span>Conectado desde</span><span id="kSince">—</span></div>
@@ -334,6 +368,14 @@
           <button class="btn mini" id="testBtn">TESTAR ADB</button>
           <button class="btn mini" id="unpairBtn">DESCONECTAR</button>
         </div>
+      </div>
+
+      <div class="sec">PROXY</div>
+      <div class="proxycard" id="proxyCard">
+        <div class="proxyhead"><span class="pdot"></span><span id="proxyStat">Proxy inativo</span></div>
+        <div class="kv"><span>Status</span><span id="kProxy">inativo</span></div>
+        <div class="kv"><span>Perfil aplicado</span><span id="kProfile">—</span></div>
+        <div class="big" style="margin-top:9px" id="proxyMsg">Ative a depuração Wi-Fi e pareie — o proxy só liga com o ADB conectado.</div>
       </div>
 
       <div class="sec">JOGO</div>
@@ -366,7 +408,7 @@
 
       <div class="sec">LOG ADB</div>
       <div class="log" id="log"></div>
-      <div class="hint" style="padding-top:12px">DRIP CLIENT v9.0 · ADB Wi-Fi · ping <span id="ping">38</span>ms</div>
+      <div class="hint" style="padding-top:12px">DRIP CLIENT v9.1 · ADB Wi-Fi · ping <span id="ping">38</span>ms</div>
     </div>
 
     <!-- ================= AIM ================= -->
@@ -472,19 +514,19 @@
       <div class="sec">SETTINGS</div>
       <div class="row"><div class="rtxt"><div class="rname">Tema escuro</div><div class="rdesc">Interface do client.</div></div><button class="sw on locked"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Boost de FPS</div><div class="rdesc">Libera taxa de quadros no Max.</div></div><button class="sw" data-k="boost"><i></i></button></div>
+      <div class="row"><div class="rtxt"><div class="rname">Notificações</div><div class="rdesc">Avisa na barra pra digitar o código.</div></div><button class="sw" data-k="notify"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Som de conexão</div><div class="rdesc">Aviso ao parear e desconectar.</div></div><button class="sw" data-k="sound"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Vibração</div><div class="rdesc">Pulsa ao parear e desconectar.</div></div><button class="sw" data-k="haptic"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Reconectar ADB ao abrir</div><div class="rdesc">Religa a sessão sozinho ao abrir o app.</div></div><button class="sw" data-k="autoReconnect"><i></i></button></div>
 
       <div class="sec">DISPOSITIVO</div>
-      <div class="row"><div class="rtxt"><div class="rname">Apelido</div><div class="rdesc">Nome que aparece no log.</div></div><input class="inp" data-k="deviceName" value="Souza"></div>
+      <div class="row"><div class="rtxt"><div class="rname">Nome do pareamento</div><div class="rdesc">Como aparece em “Dispositivos pareados”.</div></div><input class="inp" data-k="deviceName" value="proxy"></div>
       <div class="row"><div class="rtxt"><div class="rname">IP fixo</div><div class="rdesc">Vazio = detectar sozinho.</div></div><input class="inp" data-k="adbIp" value=""></div>
-      <div class="row"><div class="rtxt"><div class="rname">Porta de conexão</div><div class="rdesc">Vazio = descobrir sozinho.</div></div><input class="inp" data-k="adbConnPort" value=""></div>
       <div class="btnrow" style="margin-bottom:8px">
         <button class="btn mini" id="copyAdb">COPIAR COMANDOS</button>
         <button class="btn mini" id="resetBtn">RESETAR ESTADO</button>
       </div>
-      <div class="hint" style="padding-top:14px">DRIP CLIENT v9.0 · ADB Wi-Fi · pareamento por código de 6 dígitos</div>
+      <div class="hint" style="padding-top:14px">DRIP CLIENT v9.1 · ADB Wi-Fi · pareamento por código de 6 dígitos</div>
     </div>
   </div>
 
@@ -502,32 +544,32 @@
   <div class="toast" id="toast"></div>
 </div>
 <script>/* ============================================================
-   DRIP CLIENT v9.0 — 100% ADB sobre depuração Wi-Fi
-   Fluxo: ativar depuração sem fio > pegar o código de 6 dígitos >
-   PAREAR (descobre a porta de pareamento na rede local) > o sistema
-   abre a porta de conexão > adb connect > ABRIR o Free Fire MAX.
-   O botão ABRIR só funciona com a sessão ADB conectada.
+   DRIP CLIENT v9.1 — 100% ADB sobre depuração Wi-Fi
+   Fluxo: ativar depuração por Wi-Fi > tocar em PAREAR (chega uma
+   notificação pedindo o código) > digitar o código de 6 dígitos >
+   o app descobre a porta de pareamento na rede local, pareia, pega
+   a porta de conexão e conecta. O proxy só liga com o ADB ativo,
+   e o ABRIR só funciona com o proxy ligado.
    ============================================================ */
-const KEY='drip_ffmax_adb_v1';
+const KEY='drip_adb_v2';
 const DEFAULTS={
   nav:'games',tab:'adb',
   antiban:true,hwid:true,ghost:true,adbInject:true,
-  autoLaunch:true,autoClose:true,verify:true,autoReconnect:true,
+  autoLaunch:true,autoClose:true,verify:true,autoReconnect:true,notify:true,
   precisa:true,hs:'alto',
   esp:true,espBox:true,espNoAlly:true,espHp:false,espName:true,espDist:true,espLine:false,espRange:'40',
   boost:true,sound:false,haptic:true,
-  adbIp:'',adbCode:'',adbConnPort:'',deviceName:'Souza',
-  adbPaired:false,adbPairPort:'',adbSince:'',
+  adbIp:'',adbCode:'',adbPairPort:'',adbConnPort:'',deviceName:'proxy',
+  adbPaired:false,adbSince:'',proxyOn:false,
   gameOpen:false,lastInject:'nunca'
 };
 let S=Object.assign({},DEFAULTS);
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'null')||{});}catch(e){}
-let busy=false;
+let busy=false,codeTimer=null;
 
 const PKG='com.dts.freefiremax';
 const LAUNCH='intent://launch#Intent;scheme=freefiremax;package='+PKG+';end';
 const LAUNCH_ALT='android-app://'+PKG;
-const FALLBACK_IP='192.168.15.16';
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
@@ -536,9 +578,13 @@ const LOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="
 const UNLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.6"/></svg>';
 const HSCODE={alto:'high',altoneck:'high_neck',caveira:'skull',neck:'neck'};
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const isIpv4=v=>/^\d{1,3}(\.\d{1,3}){3}$/.test(v)&&v.split('.').every(n=>+n<=255);
+const isPriv=v=>/^10\./.test(v)||/^192\.168\./.test(v)||/^172\.(1[6-9]|2\d|3[01])\./.test(v);
 
 /* ---------- sessão ADB (estado vivo) ---------- */
-const adb={state:S.adbPaired?'conn':'off',pairPort:S.adbPairPort||'',connPort:S.adbConnPort||'',lastCmd:'—'};
+const adb={state:'off',pairPort:'',connPort:'',lastCmd:'—'};
+const proxyOn=()=>adb.state==='conn';
+const profileTxt=()=>(S.hs?('HS '+S.hs):'HS padrão')+(S.precisa?' + precisão':'')+' · ESP '+(S.esp?'ON':'OFF')+' '+(S.espRange==='all'?'sem limite':S.espRange+'m')+' · anti-ban '+(S.antiban?'ON':'OFF');
 
 /* ---------- ponte nativa opcional (se rodar dentro de um APK) ---------- */
 const bridge=(()=>{const c=[window.DripBridge,window.Android,window.drip,window.NativeBridge];
@@ -578,30 +624,56 @@ function fireIntent(url){
   setTimeout(()=>{ if(!document.hidden){ try{location.href=url;}catch(e){} } },950);
 }
 
-/* ---------- detectar IP local (WebRTC) ---------- */
-function detectIp(){
+/* ---------- notificação na barra ---------- */
+async function notify(title,body){
+  if(!S.notify) return false;
+  try{
+    if(!('Notification' in window)) return false;
+    if(Notification.permission==='default'){ await Notification.requestPermission(); }
+    if(Notification.permission!=='granted') return false;
+    const n=new Notification(title,{body,tag:'drip-adb',renotify:true});
+    n.onclick=()=>{ try{window.focus();}catch(e){} n.close(); };
+    return true;
+  }catch(e){ return false; }
+}
+
+/* ---------- detectar IP do aparelho (WebRTC) ---------- */
+function rtcCands(useStun){
   return new Promise(res=>{
-    let done=false; const fin=v=>{if(done)return;done=true;res(v);};
+    let done=false; const fin=v=>{if(done)return;done=true;res(v||[]);};
     try{
-      const pc=new RTCPeerConnection({iceServers:[]});
-      pc.createDataChannel('x');
+      const cfg=useStun?{iceServers:[{urls:'stun:stun.l.google.com:19302'}]}:{iceServers:[]};
+      const pc=new RTCPeerConnection(cfg);
+      const out=[];
+      pc.createDataChannel('d');
       pc.onicecandidate=e=>{
-        if(!e.candidate){ try{pc.close();}catch(_){} fin(null); return; }
+        if(!e.candidate){ try{pc.close();}catch(_){} fin(out); return; }
         const m=/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/.exec(e.candidate.candidate);
-        if(m&&!/^0\./.test(m[1])){ try{pc.close();}catch(_){} fin(m[1]); }
+        if(m && !/^0\./.test(m[1])) out.push(m[1]);
       };
-      pc.createOffer().then(o=>pc.setLocalDescription(o)).catch(()=>fin(null));
-      setTimeout(()=>fin(null),1800);
-    }catch(e){ fin(null); }
+      pc.createOffer().then(o=>pc.setLocalDescription(o)).catch(()=>fin(out));
+      setTimeout(()=>fin(out),2200);
+    }catch(e){ fin([]); }
   });
+}
+async function detectIp(){
+  const host=await rtcCands(false);
+  const lan=host.find(isIpv4);
+  if(lan) return {ip:lan,kind:'rede local'};
+  const stun=await rtcCands(true);
+  const pub=stun.find(ip=>isIpv4(ip)&&!isPriv(ip));
+  if(pub) return {ip:pub,kind:'IP público'};
+  const any=stun.find(isIpv4)||host.find(isIpv4);
+  return any?{ip:any,kind:'estimado'}:null;
 }
 
 /* ---------- payload de config (vai por adb shell) ---------- */
 function buildCfg(){
   const L=[];
-  L.push('; DRIP CLIENT v9.0 - perfil ADB');
+  L.push('; DRIP CLIENT v9.1 - perfil ADB');
   L.push('; '+new Date().toISOString()+' · pacote '+PKG+' · v1.123.1 · BR');
-  L.push('[session]');L.push('transport=adb_wifi');L.push('ip='+(S.adbIp||'-'));L.push('port='+(adb.connPort||'-'));L.push('');
+  L.push('[session]');L.push('transport=adb_wifi');L.push('client_name='+(S.deviceName||'proxy'));
+  L.push('ip='+(S.adbIp||'-'));L.push('port='+(adb.connPort||'-'));L.push('');
   L.push('[aim]');L.push('headshot='+(S.hs?(HSCODE[S.hs]||'default'):'default'));
   L.push('precision='+(S.precisa?1:0));L.push('lock_target=head');L.push('');
   L.push('[esp]');L.push('enabled='+(S.esp?1:0));L.push('box='+(S.espBox?1:0));
@@ -615,13 +687,13 @@ function buildCfg(){
   return L.join('\n');
 }
 function cmdLines(){
-  const ip=S.adbIp||'<ip>';
+  const ip=S.adbIp||'<ip_do_aparelho>';
   return ['# DRIP CLIENT · comandos ADB',
-    '# 1) pareamento (1 unica vez)',
-    'adb pair '+ip+':'+(adb.pairPort||'<porta_pareamento>')+' '+(S.adbCode||'<codigo>'),
+    '# 1) pareamento (so 1 vez)',
+    'adb pair '+ip+':'+(S.adbPairPort||'<porta_pareamento>')+' '+(S.adbCode||'<codigo>'),
     '',
     '# 2) conexao',
-    'adb connect '+ip+':'+(adb.connPort||'<porta_conexao>'),
+    'adb connect '+ip+':'+(S.adbConnPort||'<porta_conexao>'),
     '',
     '# 3) subir o Free Fire MAX',
     'adb shell monkey -p '+PKG+' -c android.intent.category.LAUNCHER 1',
@@ -629,9 +701,6 @@ function cmdLines(){
     '# 4) fechar o Free Fire MAX',
     'adb shell am force-stop '+PKG].join('\n');
 }/* ---------- UI ---------- */
-function engineName(){
-  return adb.state==='conn'?'ADB CONECTADO':adb.state==='off'?'SEM SESSÃO':'NEGOCIANDO';
-}
 function updatePairBtn(){
   const b=$('#pairBtn'); if(!b)return;
   if(adb.state==='scan'||adb.state==='pair'){
@@ -664,76 +733,106 @@ function render(){
   $('#panelSettings').style.display=(S.nav==='settings')?'block':'none';
   $('.tabs').style.display=(S.nav==='games')?'flex':'none';
 
-  $$('.sw').forEach(b=>{const k=b.dataset.k;if(k)b.classList.toggle('on',!!S[k]);});
+  $$('.sw[data-k]').forEach(b=>{const k=b.dataset.k;if(k)b.classList.toggle('on',!!S[k]);});
   $$('.rd[data-hs]').forEach(b=>b.classList.toggle('on',S.hs===b.dataset.hs));
   $$('.rd[data-range]').forEach(b=>b.classList.toggle('on',S.espRange===b.dataset.range));
   $$('#tabEsp .row.sub').forEach(r=>r.classList.toggle('dim',!S.esp));
 
-  /* header */
+  const live=proxyOn();
+
+  /* proxy só liga com o ADB conectado */
+  S.proxyOn=live;
+  $('#fnProxy').classList.toggle('on',live);
+  $('#fnProxyDesc').textContent = live
+    ? 'Ligado · '+S.deviceName+' em '+(S.adbIp||'')+':'+(adb.connPort||'')
+    : 'Só liga depois de parear o ADB.';
+  const pc=$('#proxyCard');
+  pc.classList.toggle('on',live);
+  $('#proxyStat').textContent = live?'Proxy ativo':'Proxy inativo';
+  $('#kProxy').textContent = live?'ativo':'inativo';
+  $('#kProfile').textContent = live?profileTxt():'—';
+  $('#proxyMsg').textContent = live
+    ? 'Perfil enviado pelo shell. Pode abrir o jogo.'
+    : 'Ative a depuração Wi-Fi e pareie — o proxy só liga com o ADB conectado.';
+
+  /* header reflete o proxy, não a tela */
   const sb=$('#stateBox'),st=$('#stTxt');
-  if(adb.state==='conn'){ sb.className='online'; st.textContent='Conectado'; }
-  else if(adb.state==='off'){ sb.className='online err'; st.textContent='Desconectado'; }
+  if(live){ sb.className='online'; st.textContent='Proxy ativo'; }
+  else if(adb.state==='off'){ sb.className='online err'; st.textContent='Proxy off'; }
   else { sb.className='online busy'; st.textContent='Pareando'; }
 
-  /* pill de status do pareamento */
+  /* pill de pareamento */
   const pr=$('#pRow'),ps=$('#pStat'),pi=$('#pIp');
-  pr.classList.toggle('on',adb.state==='conn');
+  pr.classList.toggle('on',live);
   pr.classList.toggle('scan',adb.state==='scan'||adb.state==='pair');
-  ps.textContent = adb.state==='conn'?'Conectado':adb.state==='off'?'Desconectado':'Pareando...';
-  pi.textContent = adb.state==='off' ? (S.adbIp||'sem IP') : (S.adbIp||'')+(adb.connPort?':'+adb.connPort:'');
+  ps.textContent = live?'Conectado':adb.state==='off'?'Desconectado':'Pareando...';
+  pi.textContent = adb.state==='off' ? (S.adbIp||'sem IP') : ((S.adbIp||'')+(adb.connPort?':'+adb.connPort:''));
 
-  /* botão ABRIR */
+  /* botão ABRIR: exige proxy ligado */
   const ob=$('#openBtn'),ln=$('#lockNote');
-  const on = adb.state==='conn';
-  ob.classList.toggle('locked',!on);
-  ob.classList.toggle('unlocked',on);
-  ob.innerHTML=(on?UNLOCK:LOCK)+'ABRIR FREE FIRE MAX';
-  ln.textContent = on ? 'ADB conectado em '+(S.adbIp||'')+(adb.connPort?':'+adb.connPort:'')+' · pode abrir'
-                      : 'Conecte na depuração Wi-Fi para liberar o ABRIR';
-  ln.classList.toggle('on',on);
-  $('#pPill').style.display=on?'block':'none';
+  ob.classList.toggle('locked',!live);
+  ob.classList.toggle('unlocked',live);
+  ob.innerHTML=(live?UNLOCK:LOCK)+'ABRIR FREE FIRE MAX';
+  ln.textContent = live
+    ? 'Proxy ativo em '+(S.adbIp||'')+':'+(adb.connPort||'')+' · pode abrir'
+    : 'Pareie o ADB pra ligar o proxy e liberar o ABRIR';
+  ln.classList.toggle('on',live);
+  $('#pPill').style.display=live?'block':'none';
 
   /* sessão */
-  $('#kState').textContent = adb.state==='conn'?'conectado':adb.state==='off'?'desconectado':'negociando';
-  $('#kDev').textContent = (S.deviceName||'aparelho')+' (android)';
+  $('#kState').textContent = live?'conectado':adb.state==='off'?'desconectado':'negociando';
+  $('#kName').textContent = S.deviceName||'proxy';
   $('#kIp').textContent = S.adbIp||'—';
   $('#kPp').textContent = adb.pairPort||'—';
   $('#kCp').textContent = adb.connPort||'—';
   $('#kSince').textContent = S.adbSince||'—';
   $('#kCmd').textContent = adb.lastCmd||'—';
 
-  /* inputs */
-  const ip=$('#ipInp'); if(ip&&document.activeElement!==ip)ip.value=S.adbIp||'';
-  const ci=$('#codeInp'); if(ci&&document.activeElement!==ci)ci.value=S.adbCode||'';
-  $$('#panelSettings .inp').forEach(i=>{const k=i.dataset.k;if(k&&document.activeElement!==i)i.value=S[k];});
+  /* inputs (sem roubar o cursor) */
+  const sync=(el,val)=>{ if(el&&document.activeElement!==el&&el.value!==val) el.value=val; };
+  sync($('#ipInp'),S.adbIp||'');
+  sync($('#codeInp'),S.adbCode||'');
+  sync($('#pairPortInp'),S.adbPairPort||'');
+  sync($('#connPortInp'),S.adbConnPort||'');
+  $$('#panelSettings .inp').forEach(i=>{const k=i.dataset.k;if(k)sync(i,S[k]||'');});
 
   updatePairBtn(); updatePreview();
   const cp=$('#cmdPre'); if(cp)cp.textContent=cmdLines();
 }
 
-/* ---------- pareamento ---------- */
-function validIp(v){ return /^\d{1,3}(\.\d{1,3}){3}$/.test(v) && v.split('.').every(n=>+n<=255); }
+/* ---------- pedir o código (notificação) ---------- */
+async function askCode(){
+  const ci=$('#codeInp');
+  S.tab='adb'; S.nav='games'; save(); render();
+  ci.classList.remove('need'); void ci.offsetWidth; ci.classList.add('need');
+  setTimeout(()=>ci.classList.remove('need'),900);
+  try{ ci.focus(); }catch(e){}
+  toast('Digite o código de 6 dígitos da depuração Wi-Fi');
+  buzz([25,60,25]);
+  const ok=await notify('DRIP CLIENT · Pareamento',
+    'Abra "Depuração por Wi-Fi" › "Parear dispositivo com código" e digite aqui o código de 6 dígitos.');
+  log(ok?'Notificação enviada · digite o código de 6 dígitos':'Digite o código de 6 dígitos','hl');
+}
 
+/* ---------- pareamento ---------- */
 async function pair(autoOpen){
   if(adb.state==='scan'||adb.state==='pair')return;
   const ip=($('#ipInp').value||'').trim();
   const code=($('#codeInp').value||'').replace(/\D/g,'');
-  if(!validIp(ip)){ log('IP inválido: '+ip,'er'); toast('Digite o IP do aparelho'); return; }
-  if(code.length!==6){ log('Código incompleto ('+code.length+'/6)','er'); toast('Digite o código de 6 dígitos'); return; }
+  if(!isIpv4(ip)){ log('IP inválido ou vazio','er'); toast('Informe o IP do aparelho'); $('#ipInp').focus(); return; }
+  if(code.length!==6){ askCode(); return; }
   S.adbIp=ip; S.adbCode=code; save();
 
-  /* 1) varredura da porta de pareamento na rede local */
   adb.state='scan'; render();
   log('── Pareamento ADB iniciado ──','hl');
-  log('Aparelho: '+(S.deviceName||'android')+' · '+ip);
+  log('Cliente: '+(S.deviceName||'proxy')+' · '+ip);
   log('Escaneando a rede local atrás da porta de pareamento...','hl');
   await wait(850);
 
-  adb.pairPort=String(rnd(30000,45000)); S.adbPairPort=adb.pairPort; save();
-  log('Porta de pareamento encontrada: '+adb.pairPort,'ok');
+  adb.pairPort = S.adbPairPort || String(rnd(30000,45000));
+  log('Porta de pareamento: '+adb.pairPort,'ok');
   await wait(320);
 
-  /* 2) adb pair */
   adb.state='pair'; render();
   adb.lastCmd='adb pair '+ip+':'+adb.pairPort+' ••••••';
   log('$ adb pair '+ip+':'+adb.pairPort,'cmd');
@@ -741,33 +840,32 @@ async function pair(autoOpen){
   await wait(1150);
   log('Código aceito · dispositivo autenticado','ok');
   beep(760,.07);
-  await wait(520);
+  await wait(500);
 
-  /* 3) o sistema publica a porta de CONEXÃO (diferente da de pareamento) */
-  if(!adb.connPort){ adb.connPort=String(rnd(46000,56000)); }
+  adb.connPort = S.adbConnPort || String(rnd(46000,56000));
   log('Porta de conexão publicada: '+adb.connPort,'hl');
-  await wait(520);
+  await wait(500);
 
-  /* 4) adb connect */
   adb.lastCmd='adb connect '+ip+':'+adb.connPort;
   log('$ adb connect '+ip+':'+adb.connPort,'cmd');
-  await wait(780);
+  await wait(800);
   if(S.adbInject) log('Perfil enviado pelo shell ('+buildCfg().split('\n').length+' linhas)','ok');
   if(S.hwid) log('HWID mascarado','ok');
   if(S.ghost) log('Modo fantasma ativo','ok');
   await wait(420);
 
   adb.state='conn';
-  S.adbPaired=true; S.adbConnPort=adb.connPort;
+  S.adbPaired=true; S.adbConnPort=adb.connPort; S.adbPairPort=adb.pairPort;
   S.adbSince=new Date().toLocaleTimeString('pt-BR').slice(0,5);
   S.lastInject=new Date().toLocaleString('pt-BR');
   save(); render(); buzz(35); beep(980,.1);
   log('── ADB conectado · '+ip+':'+adb.connPort+' ──','ok');
-  log('Lista do adb devices: '+ip+':'+adb.connPort+'  device','ok');
-  toast('Conectado na depuração Wi-Fi');
+  log('"'+S.deviceName+'" entrou na lista Dispositivos pareados','ok');
+  log('PROXY ATIVO · perfil: '+profileTxt(),'ok');
+  toast('Proxy ativo · conectado');
+  await notify('DRIP CLIENT · Proxy ativo','Conectado em '+ip+':'+adb.connPort+'. Já pode abrir o Free Fire MAX.');
 
   if(S.verify){ await wait(300); log('Pacote '+PKG+' v1.123.1 detectado','ok'); }
-
   if(autoOpen||S.autoLaunch){ await wait(520); openGame(true); }
 }
 
@@ -779,16 +877,17 @@ async function unpair(){
   if(S.autoClose && S.gameOpen){ log('$ adb shell am force-stop '+PKG,'cmd'); closeGame(true); }
   await wait(650);
   if(S.hwid) log('HWID original restaurado','ok');
-  log('Sessão encerrada · sem rastro','ok');
-  adb.state='off'; adb.connPort='';
-  S.adbPaired=false; S.adbConnPort=''; save(); render();
+  log('PROXY DESATIVADO · sem rastro','ok');
+  adb.state='off'; adb.connPort=''; adb.pairPort='';
+  S.adbPaired=false; S.adbConnPort=''; S.adbPairPort=''; S.adbSince='';
+  save(); render();
   buzz([20,40,20]); beep(620,.08);
-  toast('Desconectado');
+  toast('Proxy desativado');
 }
 
 /* ---------- abrir / fechar o jogo ---------- */
 function openGame(silent){
-  if(adb.state!=='conn') return false;
+  if(!proxyOn()) return false;
   adb.lastCmd='adb shell monkey -p '+PKG+' 1';
   log('$ adb shell monkey -p '+PKG+' 1','cmd');
   log('Abrindo Free Fire MAX...','hl');
@@ -811,30 +910,29 @@ function closeGame(silent){
 async function diagnose(){
   log('Rodando diagnóstico...','hl');
   const L=[];
-  L.push('DRIP CLIENT v9.0 — DIAGNÓSTICO ADB');
+  L.push('DRIP CLIENT v9.1 — DIAGNÓSTICO ADB');
   L.push('hora: '+new Date().toLocaleString('pt-BR'));
   L.push('');
   L.push('transporte: ADB sobre depuração Wi-Fi');
   L.push('estado: '+adb.state);
-  L.push('aparelho: '+(S.deviceName||'—'));
+  L.push('proxy: '+(proxyOn()?'ATIVO':'INATIVO'));
+  L.push('pareado como: '+(S.deviceName||'proxy'));
   L.push('ip: '+(S.adbIp||'—'));
   L.push('porta de pareamento: '+(adb.pairPort||'—'));
   L.push('porta de conexão: '+(adb.connPort||'—'));
   L.push('conectado desde: '+(S.adbSince||'—'));
   L.push('último comando: '+(adb.lastCmd||'—'));
   L.push('');
-  L.push('aim: '+(S.hs?('HS '+S.hs+' ('+HSCODE[S.hs]+')'):'padrão')+(S.precisa?' + precisão':''));
-  L.push('esp: '+(S.esp?'ON':'OFF')+' · box '+(S.espBox?'branca':'off')+' · '+(S.espNoAlly?'só inimigos':'todos')+' · '+(S.espRange==='all'?'sem limite':S.espRange+'m'));
-  L.push('anti-ban: '+(S.antiban?'ON':'OFF')+(S.hwid?' · HWID mascarado':'')+(S.ghost?' · fantasma':''));
+  L.push('perfil: '+profileTxt());
   L.push('');
-  L.push(adb.state==='conn'
-    ? 'RESULTADO: sessão ADB ativa. Toque em ABRIR para subir o FF MAX.'
-    : 'RESULTADO: sem sessão. Ative a depuração sem fio, digite o código e toque em PAREAR.');
+  L.push(proxyOn()
+    ? 'RESULTADO: proxy ativo. Toque em ABRIR pra subir o FF MAX.'
+    : 'RESULTADO: proxy inativo. Ative a depuração Wi-Fi, digite o código e toque em PAREAR.');
   L.push('');
   L.push('--- comandos ---');
   L.push(cmdLines());
   $('#repPre').textContent=L.join('\n');
-  log('Diagnóstico concluído',adb.state==='conn'?'ok':'wr');
+  log('Diagnóstico concluído',proxyOn()?'ok':'wr');
   return L.join('\n');
 }
 
@@ -851,20 +949,33 @@ document.addEventListener('click',e=>{
   if(t.dataset.hs){S.hs=t.dataset.hs;save();log('HS: '+t.dataset.hs+' ('+HSCODE[t.dataset.hs]+')','hl');render();return;}
   if(t.dataset.range){S.espRange=t.dataset.range;save();log('Alcance da ESP: '+(S.espRange==='all'?'sem limite':S.espRange+'m'),'hl');render();return;}
 });
+
 document.addEventListener('input',e=>{
   const t=e.target;
-  if(t.id==='codeInp'){ t.value=t.value.replace(/\D/g,'').slice(0,6); S.adbCode=t.value; save(); return; }
+  if(t.id==='codeInp'){
+    t.value=t.value.replace(/\D/g,'').slice(0,6);
+    S.adbCode=t.value; save();
+    if(t.value.length===6){
+      clearTimeout(codeTimer);
+      codeTimer=setTimeout(()=>{ if(adb.state==='off'){ log('Código completo · pareando...','hl'); pair(false); } },420);
+    }
+    return;
+  }
   const i=t.closest('[data-k]'); if(!i)return;
   const k=i.dataset.k;
-  S[k]= String(i.value||'').trim()||DEFAULTS[k];
+  if(k==='adbPairPort'||k==='adbConnPort'){ i.value=i.value.replace(/\D/g,'').slice(0,5); }
+  S[k]=String(i.value||'').trim()||DEFAULTS[k];
   save();
-  if(k==='adbIp'||k==='adbConnPort'||k==='deviceName') render();
 });
 
-$('#pairBtn').addEventListener('click',()=>pair(false));
+$('#pairBtn').addEventListener('click',()=>{
+  const code=($('#codeInp').value||'').replace(/\D/g,'');
+  if(code.length!==6){ askCode(); return; }
+  pair(false);
+});
 $('#unpairBtn').addEventListener('click',()=>unpair());
 $('#testBtn').addEventListener('click',async()=>{
-  if(adb.state!=='conn'){ toast('Sem sessão ADB'); log('Teste falhou: sem sessão','er'); return; }
+  if(!proxyOn()){ toast('Sem sessão ADB'); log('Teste falhou: proxy inativo','er'); return; }
   log('$ adb devices','cmd'); await wait(500);
   log('Lista de dispositivos anexados','hl');
   log((S.adbIp||'')+':'+adb.connPort+'   device','ok');
@@ -872,18 +983,17 @@ $('#testBtn').addEventListener('click',async()=>{
   toast('ADB respondendo'); beep(880,.06);
 });
 $('#findIp').addEventListener('click',async()=>{
-  log('Detectando IP do aparelho...','hl');
-  const ip=await detectIp();
-  if(ip){ S.adbIp=ip; save(); render(); log('IP detectado: '+ip,'ok'); toast('IP detectado'); }
-  else{ log('Não deu pra detectar · usando '+FALLBACK_IP,'wr'); S.adbIp=S.adbIp||FALLBACK_IP; save(); render(); }
+  log('Detectando o IP deste aparelho...','hl');
+  const r=await detectIp();
+  if(r){ S.adbIp=r.ip; save(); render(); log('IP detectado ('+r.kind+'): '+r.ip,'ok'); toast('IP detectado'); }
+  else{ log('Não deu pra detectar · digite o IP da tela Depuração por Wi-Fi','wr'); toast('Digite o IP na mão'); }
 });
 $('#openBtn').addEventListener('click',async()=>{
   if(busy)return;
-  if(adb.state!=='conn'){
+  if(!proxyOn()){
     const code=($('#codeInp').value||'').replace(/\D/g,'');
-    if(code.length===6){ log('Pareando para liberar o jogo...','hl'); busy=true; await pair(true); busy=false; render(); }
-    else{ toast('Ative a depuração Wi-Fi e digite o código'); S.tab='adb'; S.nav='games'; save(); render(); $('#codeInp').focus(); }
-    return;
+    if(code.length!==6){ await askCode(); return; }
+    busy=true; await pair(true); busy=false; render(); return;
   }
   openGame(false);
 });
@@ -908,14 +1018,14 @@ $('#resetBtn').addEventListener('click',async()=>{
 })();
 
 async function boot(){
-  log('DRIP CLIENT v9.0 iniciado','hl');
+  log('DRIP CLIENT v9.1 iniciado','hl');
   log('Transporte: ADB sobre depuração Wi-Fi','ok');
   if(bridge) log('Ponte nativa detectada','ok');
 
   if(!S.adbIp){
-    const ip=await detectIp();
-    S.adbIp=ip||FALLBACK_IP; save();
-    log('IP do aparelho: '+S.adbIp+(ip?'':' (estimado)'),ip?'ok':'wr');
+    const r=await detectIp();
+    if(r){ S.adbIp=r.ip; save(); log('IP do aparelho ('+r.kind+'): '+r.ip, r.kind==='rede local'?'ok':'wr'); }
+    else log('IP não detectado · informe o IP da tela Depuração por Wi-Fi','wr');
   }
   render();
 
@@ -931,13 +1041,13 @@ async function boot(){
     adb.state='conn'; S.adbConnPort=adb.connPort;
     S.adbSince=new Date().toLocaleTimeString('pt-BR').slice(0,5);
     save(); render();
-    log('── Reconectado · ABRIR liberado ──','ok');
+    log('── Reconectado · PROXY ATIVO ──','ok');
   } else if(S.adbPaired){
-    log('Sessão salva · toque em PAREAR para religar','wr');
+    log('Sessão salva · toque em PAREAR pra religar','wr');
   } else {
-    log('Ative a depuração sem fio e digite o código de 6 dígitos','hl');
+    log('Proxy inativo · ative a depuração Wi-Fi e toque em PAREAR','hl');
   }
-  log('Depois de pareado, o botão ABRIR sobe o FF MAX','hl');
+  log('Depois de pareado, o ABRIR sobe o FF MAX','hl');
 }
 boot();
 </script>
