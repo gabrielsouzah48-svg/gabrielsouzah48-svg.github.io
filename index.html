@@ -29,10 +29,11 @@
   .online{margin-left:auto;font-size:10.5px;color:#4ade80;display:flex;align-items:center;
           gap:5px;background:#0f1f16;border:1px solid rgba(74,222,128,.28);
           padding:4px 9px;border-radius:20px;white-space:nowrap}
-  .dot{width:6px;height:6px;border-radius:50%;background:#4ade80}
+  .online.busy{color:#facc15;background:#221c08;border-color:rgba(250,204,21,.3)}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
   .tabs{display:flex;gap:6px;padding:0 14px 10px}
   .tabbtn{flex:1;background:#120c20;border:1px solid rgba(168,85,247,.14);color:#8b83a6;
-          padding:8px 0;border-radius:9px;font-size:11px;letter-spacing:1.1px;
+          padding:8px 0;border-radius:9px;font-size:10.5px;letter-spacing:1.1px;
           font-weight:500;cursor:pointer;font-family:inherit}
   .tabbtn.on{background:#2a1150;border-color:rgba(192,132,252,.5);color:#e9d5ff}
   .body{padding:0 14px 8px;flex:1}
@@ -40,7 +41,8 @@
        gap:7px;margin:12px 0 8px;font-weight:500}
   .card{background:#130d22;border:1px solid rgba(168,85,247,.13);border-radius:13px;padding:11px 13px}
   .row{display:flex;align-items:center;gap:10px;background:#130d22;
-       border:1px solid rgba(168,85,247,.13);border-radius:13px;padding:11px 13px;margin-bottom:8px}
+       border:1px solid rgba(168,85,247,.13);border-radius:13px;padding:11px 13px;margin-bottom:8px;
+       transition:opacity .16s}
   .rtxt{flex:1;min-width:0}
   .rname{font-size:13px;font-weight:500;color:#efe9fb}
   .rdesc{font-size:11px;color:#7d7694;margin-top:2px}
@@ -73,9 +75,12 @@
        font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
   .btn.armed{background:#b91c1c}
   .btn.busy{opacity:.72;cursor:default}
+  .btn.ghost{background:#1b1330;border:1px solid rgba(192,132,252,.35);color:#e9d5ff;
+       flex:0 0 104px;font-size:11.5px;letter-spacing:1px;margin-top:11px}
+  .btnrow{display:flex;gap:8px}
   .log{margin-top:12px;background:#0c0817;border:1px solid rgba(168,85,247,.13);
        border-radius:12px;padding:9px 11px;font-family:ui-monospace,SFMono-Regular,Menlo,
-       Consolas,monospace;font-size:10.5px;color:#8f86ad;min-height:100px}
+       Consolas,monospace;font-size:10.5px;color:#8f86ad;min-height:118px}
   .log div{margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .log .t{color:#5f5878}
   .log .ok{color:#4ade80}
@@ -89,9 +94,62 @@
   .toast{position:absolute;left:50%;transform:translateX(-50%);bottom:78px;
          background:#241a3c;border:1px solid rgba(192,132,252,.45);color:#f3e8ff;
          font-size:11.5px;padding:8px 14px;border-radius:20px;opacity:0;
-         transition:opacity .2s;pointer-events:none;white-space:nowrap}
+         transition:opacity .2s;pointer-events:none;white-space:nowrap;z-index:9}
   .toast.show{opacity:1}
   .hint{font-size:10px;color:#6b6383;text-align:center;padding:0 14px 12px;letter-spacing:.3px}
+  .dim{opacity:.42}
+  .pathchip{display:flex;align-items:center;gap:8px;background:#0c0817;
+        border:1px solid rgba(168,85,247,.16);border-radius:10px;padding:9px 10px;
+        font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:9.5px;
+        color:#a99fc4;overflow:hidden}
+  .pathchip span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pathchip button{flex:0 0 auto;background:#241a3c;border:1px solid rgba(192,132,252,.35);
+        color:#e9d5ff;font-size:9.5px;letter-spacing:.6px;padding:4px 8px;border-radius:7px;
+        cursor:pointer;font-family:inherit}
+  .confirm{display:none;gap:8px;align-items:center;margin-top:9px;background:#1a1030;
+        border:1px solid rgba(192,132,252,.35);border-radius:11px;padding:9px 11px;font-size:11px}
+  .confirm.on{display:flex}
+  .confirm span{flex:1;color:#e9d5ff}
+  .confirm button{border:0;border-radius:8px;padding:6px 12px;font-size:10.5px;letter-spacing:1px;
+        font-family:inherit;cursor:pointer;font-weight:500}
+  .confirm .yes{background:#b91c1c;color:#fff}
+  .confirm .no{background:#241a3c;color:#e9d5ff;border:1px solid rgba(192,132,252,.35)}
+  .preview{margin-top:4px;border:1px solid rgba(168,85,247,.13);background:#0c0817;
+        border-radius:13px;padding:10px 11px}
+  .pvhead{display:flex;justify-content:space-between;align-items:center;font-size:9.5px;
+        letter-spacing:1.4px;color:#8b83a6;margin-bottom:10px}
+  .pvhead b{color:#c084fc;font-weight:500}
+  .pscreen{position:relative;height:162px;border-radius:11px;overflow:hidden;
+        background:radial-gradient(120% 80% at 50% 0%,#1b1330 0%,#0d0a17 72%)}
+  .pscreen:before{content:"";position:absolute;inset:0;background-image:
+        linear-gradient(rgba(168,85,247,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(168,85,247,.07) 1px,transparent 1px);
+        background-size:22px 22px}
+  .pfig{position:absolute;width:30px;height:50px;border-radius:6px;background:#2b2140;
+        box-shadow:inset 0 -9px 0 rgba(0,0,0,.28);transition:opacity .18s}
+  .pfig .box{position:absolute;inset:-6px;border:2px solid #fff;border-radius:9px;
+        box-shadow:0 0 9px rgba(255,255,255,.45);transition:opacity .18s}
+  .pfig .boxA{position:absolute;inset:-6px;border:2px dashed rgba(192,132,252,.85);
+        border-radius:9px;display:none}
+  .pfig .hp{position:absolute;left:-6px;right:-6px;bottom:-13px;height:4px;border-radius:3px;
+        background:rgba(0,0,0,.55);overflow:hidden}
+  .pfig .hp i{display:block;height:100%;width:72%;background:#4ade80}
+  .pfig .tag{position:absolute;top:-26px;left:50%;transform:translateX(-50%);white-space:nowrap;
+        font-size:8px;letter-spacing:.4px;color:#fff;background:rgba(0,0,0,.6);
+        border:1px solid rgba(255,255,255,.25);padding:1px 5px;border-radius:5px;
+        transition:opacity .18s}
+  .pfig .tag .tdist{color:#c084fc;margin-left:3px}
+  .enemy{left:32%;top:54%}
+  .ally{left:70%;top:32%;background:#39314f}
+  .ally .tag{border-color:rgba(192,132,252,.45);color:#e9d5ff}
+  .eline{position:absolute;left:50%;bottom:0;width:1.5px;height:152px;background:#fff;
+        opacity:.5;transform-origin:bottom center;transform:rotate(-13deg);transition:opacity .18s}
+  .eoff .pfig .box,.eoff .pfig .tag,.eoff .eline{opacity:0}
+  .showally .ally .boxA{display:block}
+  .nohp .hp{display:none}
+  .noname .tname{display:none}
+  .nodist .tdist{display:none}
+  .noline .eline{opacity:0}
   @media (min-width:600px){
     body{background:#07050f;padding:26px 0}
     .app{min-height:auto;border-radius:26px;border:1px solid rgba(168,85,247,.25)}
@@ -118,13 +176,14 @@
       <div class="htitle">DRIP <b>CLIENT</b></div>
       <div class="hsub">PROXY</div>
     </div>
-    <div class="online"><span class="dot"></span><span id="stTxt">Online</span></div>
+    <div class="online" id="stateBox"><span class="dot"></span><span id="stTxt">Online</span></div>
   </div>
 
   <div id="panelGames">
     <div class="tabs">
       <button class="tabbtn" data-tab="func">FUNÇÕES</button>
       <button class="tabbtn" data-tab="proxy">PROXY MENU</button>
+      <button class="tabbtn" data-tab="esp">ESP</button>
     </div>
 
     <div class="body">
@@ -136,15 +195,24 @@
         </div>
         <div class="row">
           <div class="rtxt"><div class="rname">Bypass de HWID</div><div class="rdesc">Esconde o serial do aparelho.</div></div>
-          <button class="sw on" data-k="hwid"><i></i></button>
+          <button class="sw" data-k="hwid"><i></i></button>
         </div>
         <div class="row">
           <div class="rtxt"><div class="rname">Modo fantasma</div><div class="rdesc">Não deixa rastro nos logs da Garena.</div></div>
-          <button class="sw on" data-k="ghost"><i></i></button>
+          <button class="sw" data-k="ghost"><i></i></button>
         </div>
         <div class="row">
-          <div class="rtxt"><div class="rname">Limpar cache ao remover</div><div class="rdesc">Zera arquivos temporários ao sair.</div></div>
+          <div class="rtxt"><div class="rname">Limpeza total ao remover</div><div class="rdesc">Apaga as libs, os logs e devolve os arquivos originais.</div></div>
           <button class="sw" data-k="clearcache"><i></i></button>
+        </div>
+        <div class="sec">AUTOMAÇÃO DO JOGO</div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">Abrir o FF MAX ao injetar</div><div class="rdesc">O jogo abre sozinho depois da injeção.</div></div>
+          <button class="sw" data-k="autoLaunch"><i></i></button>
+        </div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">Fechar o FF MAX ao remover</div><div class="rdesc">Fecha o jogo para tirar o proxy limpo.</div></div>
+          <button class="sw" data-k="autoClose"><i></i></button>
         </div>
       </div>
 
@@ -152,7 +220,7 @@
         <div class="sec">HEAD SHOT</div>
         <div class="row">
           <div class="rtxt"><div class="rname">Precisão</div><div class="rdesc">HS que faz a mira não passar.</div></div>
-          <button class="sw on" data-k="precisa"><i></i></button>
+          <button class="sw" data-k="precisa"><i></i></button>
         </div>
         <div class="row">
           <div class="rtxt"><div class="rname">HS Alto</div><div class="rdesc">HS acima da cabeça.</div></div>
@@ -179,14 +247,96 @@
             </div>
             <div>
               <div class="pname">Free Fire<span class="max">MAX</span></div>
-              <div class="pver">1.123.1</div>
+              <div class="pver">com.dts.freefiremax · 1.123.1</div>
             </div>
-            <div class="pill" id="pPill" style="display:none">● ATIVO</div>
+            <div class="pill" id="pPill" style="display:none">● INJETADO</div>
           </div>
-          <button class="btn" id="inject"></button>
+          <div class="btnrow">
+            <button class="btn" id="inject"></button>
+            <button class="btn ghost" id="launch">ABRIR FF</button>
+          </div>
+          <div class="confirm" id="confirm">
+            <span>Fechar o Free Fire MAX e remover o proxy?</span>
+            <button class="no" id="no">NÃO</button>
+            <button class="yes" id="yes">SIM</button>
+          </div>
+        </div>
+
+        <div class="sec">PASTA DE INJEÇÃO</div>
+        <div class="pathchip">
+          <span id="pathTxt">/Android/data/com.dts.freefiremax/files/drip/</span>
+          <button id="copyPath">COPIAR</button>
         </div>
 
         <div class="log" id="log"></div>
+      </div>
+
+      <div id="tabEsp">
+        <div class="sec">ESP — BOX NOS INIMIGOS</div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">ESP ativa</div><div class="rdesc">Desenha a caixa em cima dos inimigos.</div></div>
+          <button class="sw" data-k="esp"><i></i></button>
+        </div>
+        <div class="row sub">
+          <div class="rtxt"><div class="rname">Box branca</div><div class="rdesc">Contorno branco sólido no inimigo.</div></div>
+          <button class="sw" data-k="espBox"><i></i></button>
+        </div>
+        <div class="row sub">
+          <div class="rtxt"><div class="rname">Ocultar aliados (meu time)</div><div class="rdesc">Só o time inimigo aparece na box.</div></div>
+          <button class="sw" data-k="espNoAlly"><i></i></button>
+        </div>
+        <div class="row sub">
+          <div class="rtxt"><div class="rname">Vida do inimigo</div><div class="rdesc">Barra de HP embaixo da box.</div></div>
+          <button class="sw" data-k="espHp"><i></i></button>
+        </div>
+        <div class="row sub">
+          <div class="rtxt"><div class="rname">Nome do inimigo</div><div class="rdesc">Nick em cima da box.</div></div>
+          <button class="sw" data-k="espName"><i></i></button>
+        </div>
+        <div class="row sub">
+          <div class="rtxt"><div class="rname">Distância</div><div class="rdesc">Metros até o inimigo.</div></div>
+          <button class="sw" data-k="espDist"><i></i></button>
+        </div>
+        <div class="row sub">
+          <div class="rtxt"><div class="rname">Linha até o inimigo</div><div class="rdesc">Traço branco saindo de você.</div></div>
+          <button class="sw" data-k="espLine"><i></i></button>
+        </div>
+
+        <div class="sec">ALCANCE DA ESP</div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">20 metros</div><div class="rdesc">Só briga colada.</div></div>
+          <button class="rd" data-range="20"><i></i></button>
+        </div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">40 metros</div><div class="rdesc">Recomendado.</div></div>
+          <button class="rd" data-range="40"><i></i></button>
+        </div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">60 metros</div><div class="rdesc">Alcance médio.</div></div>
+          <button class="rd" data-range="60"><i></i></button>
+        </div>
+        <div class="row">
+          <div class="rtxt"><div class="rname">Sem limite</div><div class="rdesc">Mostra o mapa todo.</div></div>
+          <button class="rd" data-range="all"><i></i></button>
+        </div>
+
+        <div class="sec">PRÉVIA</div>
+        <div class="preview">
+          <div class="pvhead"><span>O QUE VOCÊ VÊ NA TELA</span><b id="pvRange">40m</b></div>
+          <div class="pscreen" id="prev">
+            <div class="eline"></div>
+            <div class="pfig enemy">
+              <span class="box"></span>
+              <span class="tag"><span class="tname">INIMIGO</span><span class="tdist">24m</span></span>
+              <span class="hp"><i></i></span>
+            </div>
+            <div class="pfig ally">
+              <span class="boxA"></span>
+              <span class="tag"><span class="tname">ALIADO</span><span class="tdist">11m</span></span>
+            </div>
+          </div>
+          <div class="hint" style="padding:10px 0 0">Box branca = inimigo · aliado do seu time fica sem box</div>
+        </div>
       </div>
     </div>
   </div>
@@ -194,103 +344,10 @@
   <div id="panelSettings" style="display:none">
     <div class="body">
       <div class="sec">SETTINGS</div>
-      <div class="row"><div class="rtxt"><div class="rname">Tema escuro</div><div class="rdesc">Interface do client.</div></div><button class="sw on"><i></i></button></div>
-      <div class="row"><div class="rtxt"><div class="rname">Boost de FPS</div><div class="rdesc">Libera taxa de quadros no Max.</div></div><button class="sw on"><i></i></button></div>
-      <div class="row"><div class="rtxt"><div class="rname">Som de injeção</div><div class="rdesc">Aviso ao injetar e remover.</div></div><button class="sw"><i></i></button></div>
-      <div class="row"><div class="rtxt"><div class="rname">Idioma</div><div class="rdesc">Português (BR).</div></div><span style="font-size:11px;color:#7d7694">PT-BR</span></div>
-      <div class="hint" style="padding-top:14px">DRIP CLIENT v4.2 · proxy ativo · ping <span id="ping">38</span>ms</div>
-    </div>
-  </div>
-
-  <div class="nav">
-    <button class="navbtn on" data-nav="games">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 12h3M8.5 10.5v3M15.5 11.5h.01M17.5 13.5h.01"/></svg>
-      GAMES
-    </button>
-    <button class="navbtn" data-nav="settings">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.2 7.2l2 1.2M17.8 15.6l2 1.2M4.2 16.8l2-1.2M17.8 8.4l2-1.2"/></svg>
-      SETTINGS
-    </button>
-  </div>
-
-  <div class="toast" id="toast"></div>
-</div>
-
-<script>
-const KEY='drip_ffmax_v1';
-let S=JSON.parse(localStorage.getItem(KEY)||'null')||{nav:'games',tab:'proxy',precisa:true,hs:null,antiban:true,hwid:true,ghost:true,clearcache:false,inject:false};
-let busy=false;
-const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
-const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
-const LOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
-const UNLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.6"/></svg>';
-
-const LOG=[];
-function log(msg,cls){
-  const d=new Date();
-  const t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
-  LOG.push({t,msg,cls}); if(LOG.length>7)LOG.shift(); paintLog();
-}
-function paintLog(){
-  $('#log').innerHTML=LOG.map(l=>'<div><span class="t">['+l.t+']</span> <span class="'+(l.cls||'')+'">'+l.msg+'</span></div>').join('')||'<div><span class="t">[--:--:--]</span> aguardando...</div>';
-}
-let tt;
-function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1700);}
-
-function render(){
-  $$('.tabbtn').forEach(b=>b.classList.toggle('on',b.dataset.tab===S.tab));
-  $$('.navbtn').forEach(b=>b.classList.toggle('on',b.dataset.nav===S.nav));
-  $('#tabFunc').style.display=(S.nav==='games'&&S.tab==='func')?'block':'none';
-  $('#tabProxy').style.display=(S.nav==='games'&&S.tab==='proxy')?'block':'none';
-  $('#panelGames').style.display=(S.nav==='games')?'block':'none';
-  $('#panelSettings').style.display=(S.nav==='settings')?'block':'none';
-  $$('.sw').forEach(b=>{const k=b.dataset.k; if(k)b.classList.toggle('on',!!S[k]);});
-  $$('.rd').forEach(b=>b.classList.toggle('on',S.hs===b.dataset.hs));
-  const btn=$('#inject');
-  if(!busy){btn.innerHTML=S.inject?UNLOCK+'REMOVER':LOCK+'INJETAR';btn.classList.toggle('armed',S.inject);}
-  $('#pPill').style.display=S.inject?'block':'none';
-  $('#stTxt').textContent=S.inject?'Injetado':'Online';
-}
-
-document.addEventListener('click',e=>{
-  const t=e.target.closest('button'); if(!t)return;
-  if(t.dataset.tab){S.tab=t.dataset.tab;save();render();}
-  if(t.dataset.nav){S.nav=t.dataset.nav;save();render();}
-  if(t.dataset.k&&!t.classList.contains('locked')){S[t.dataset.k]=!S[t.dataset.k];save();render();}
-  if(t.dataset.hs){S.hs=S.hs===t.dataset.hs?null:t.dataset.hs;save();render();}
-});
-
-$('#inject').addEventListener('click',async()=>{
-  if(busy)return; busy=true; const btn=$('#inject'); btn.classList.add('busy');
-  if(!S.inject){
-    btn.textContent='INJETANDO...';
-    log('Abrindo Free Fire Max 1.123.1...');
-    await wait(500); log('Conectando proxy DRIP...','hl');
-    await wait(500); log('Anti-ban ativo · bypass de HWID ok','ok');
-    await wait(450); log('Injeção concluída. Bom jogo!','ok');
-    S.inject=true; toast('Injetado no Free Fire Max');
-  }else{
-    btn.textContent='REMOVENDO...';
-    log('Removendo injeção...','hl');
-    await wait(500); log('Restaurando processo original...');
-    await wait(500); log('Cache limpo · jogo 100% limpo','ok');
-    S.inject=false; toast('Injeção removida');
-  }
-  busy=false; btn.classList.remove('busy'); save(); render();
-});
-
-(function tick(){
-  const d=new Date();
-  $('#clk').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
-  $('#ping').textContent=34+Math.floor(Math.random()*12);
-  setTimeout(tick,1000);
-})();
-
-log('DRIP CLIENT PROXY iniciado','hl');
-log('Proxy conectado · região BR','ok');
-log('Aguardando injeção...');
-render();
-</script>
-</body>
-</html>
+      <div class="row"><div class="rtxt"><div class="rname">Tema escuro</div><div class="rdesc">Interface do client.</div></div><button class="sw on locked"><i></i></button></div>
+      <div class="row"><div class="rtxt"><div class="rname">Boost de FPS</div><div class="rdesc">Libera taxa de quadros no Max.</div></div><button class="sw" data-k="boost"><i></i></button></div>
+      <div class="row"><div class="rtxt"><div class="rname">Som de injeção</div><div class="rdesc">Aviso ao injetar e remover.</div></div><button class="sw" data-k="sound"><i></i></button></div>
+      <div class="row"><div class="rtxt"><div class="rname">Vibração</div><div class="rdesc">Pulsa ao injetar e remover.</div></div><button class="sw" data-k="haptic"><i></i></button></div>
+      <div class="sec">ARQUIVOS</div>
+      <div class="pathchip" style="margin-bottom:8px">
+        <span>/Android/data/com.dts.freefiremax/files/drip/</span
