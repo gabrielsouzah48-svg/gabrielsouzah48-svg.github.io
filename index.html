@@ -3,10 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a0713">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>DRIP CLIENT PROXY — Free Fire Max</title>
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -43,6 +39,7 @@
   .row{display:flex;align-items:center;gap:10px;background:#130d22;
        border:1px solid rgba(168,85,247,.13);border-radius:13px;padding:11px 13px;margin-bottom:8px;
        transition:opacity .16s}
+  .row.sub{padding-left:24px}
   .rtxt{flex:1;min-width:0}
   .rname{font-size:13px;font-weight:500;color:#efe9fb}
   .rdesc{font-size:11px;color:#7d7694;margin-top:2px}
@@ -77,14 +74,17 @@
   .btn.busy{opacity:.72;cursor:default}
   .btn.ghost{background:#1b1330;border:1px solid rgba(192,132,252,.35);color:#e9d5ff;
        flex:0 0 104px;font-size:11.5px;letter-spacing:1px;margin-top:11px}
+  .btn.mini{flex:1;background:#241a3c;border:1px solid rgba(192,132,252,.35);color:#e9d5ff;
+       font-size:10px;letter-spacing:1px;padding:9px 0;margin-top:0;border-radius:9px}
   .btnrow{display:flex;gap:8px}
   .log{margin-top:12px;background:#0c0817;border:1px solid rgba(168,85,247,.13);
        border-radius:12px;padding:9px 11px;font-family:ui-monospace,SFMono-Regular,Menlo,
-       Consolas,monospace;font-size:10.5px;color:#8f86ad;min-height:118px}
+       Consolas,monospace;font-size:10.5px;color:#8f86ad;min-height:118px;max-height:190px;overflow:hidden}
   .log div{margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .log .t{color:#5f5878}
   .log .ok{color:#4ade80}
   .log .hl{color:#c084fc}
+  .log .er{color:#f87171}
   .nav{display:flex;border-top:1px solid rgba(168,85,247,.14);background:#0c0817;
        padding-bottom:env(safe-area-inset-bottom);margin-top:14px}
   .navbtn{flex:1;background:transparent;border:0;padding:11px 0 13px;color:#6b6383;
@@ -94,14 +94,14 @@
   .toast{position:absolute;left:50%;transform:translateX(-50%);bottom:78px;
          background:#241a3c;border:1px solid rgba(192,132,252,.45);color:#f3e8ff;
          font-size:11.5px;padding:8px 14px;border-radius:20px;opacity:0;
-         transition:opacity .2s;pointer-events:none;white-space:nowrap;z-index:9}
+         transition:opacity .2s;pointer-events:none;white-space:nowrap;z-index:9;max-width:90%}
   .toast.show{opacity:1}
   .hint{font-size:10px;color:#6b6383;text-align:center;padding:0 14px 12px;letter-spacing:.3px}
   .dim{opacity:.42}
   .pathchip{display:flex;align-items:center;gap:8px;background:#0c0817;
         border:1px solid rgba(168,85,247,.16);border-radius:10px;padding:9px 10px;
         font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:9.5px;
-        color:#a99fc4;overflow:hidden}
+        color:#a99fc4;overflow:hidden;margin-bottom:8px}
   .pathchip span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .pathchip button{flex:0 0 auto;background:#241a3c;border:1px solid rgba(192,132,252,.35);
         color:#e9d5ff;font-size:9.5px;letter-spacing:.6px;padding:4px 8px;border-radius:7px;
@@ -150,13 +150,26 @@
   .noname .tname{display:none}
   .nodist .tdist{display:none}
   .noline .eline{opacity:0}
+  .engine{display:flex;gap:6px;margin-bottom:9px}
+  .eng{flex:1;text-align:center;font-size:9px;letter-spacing:.7px;padding:6px 0;border-radius:8px;
+       background:#0c0817;border:1px solid rgba(168,85,247,.14);color:#6b6383}
+  .eng.on{background:#1a1030;border-color:rgba(192,132,252,.45);color:#e9d5ff}
+  .code{margin-top:8px;background:#0c0817;border:1px solid rgba(168,85,247,.16);border-radius:11px;
+        padding:9px 10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        font-size:9.5px;color:#a99fc4;white-space:pre;overflow:auto;max-height:180px;line-height:1.5}
+  .inp{background:#0c0817;border:1px solid rgba(168,85,247,.2);color:#e9d5ff;border-radius:8px;
+       padding:7px 9px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;
+       width:118px;text-align:right;outline:none}
+  .inp:focus{border-color:rgba(192,132,252,.6)}
+  .badge{font-size:9px;padding:2px 7px;border-radius:6px;letter-spacing:.6px}
+  .b-ok{background:#0f1f16;color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+  .b-no{background:#200f0f;color:#f87171;border:1px solid rgba(248,113,113,.3)}
   @media (min-width:600px){
     body{background:#07050f;padding:26px 0}
     .app{min-height:auto;border-radius:26px;border:1px solid rgba(168,85,247,.25)}
     .status{padding-top:8px}
   }
-        </style></head>
-<body>
+</style></head><body>
 <div class="app">
   <div class="status">
     <span id="clk">15:52</span>
@@ -201,7 +214,7 @@
           <button class="sw" data-k="ghost"><i></i></button>
         </div>
         <div class="row">
-          <div class="rtxt"><div class="rname">Limpeza total ao remover</div><div class="rdesc">Apaga as libs, os logs e devolve os arquivos originais.</div></div>
+          <div class="rtxt"><div class="rname">Limpeza total ao remover</div><div class="rdesc">Apaga os arquivos e a pasta drip inteira.</div></div>
           <button class="sw" data-k="clearcache"><i></i></button>
         </div>
         <div class="sec">AUTOMAÇÃO DO JOGO</div>
@@ -254,6 +267,10 @@
             <button class="btn" id="inject"></button>
             <button class="btn ghost" id="launch">ABRIR FF</button>
           </div>
+          <div class="btnrow" style="margin-top:8px">
+            <button class="btn mini" id="bindBtn">SELECIONAR PASTA DO JOGO</button>
+            <button class="btn mini" id="closeBtn">FECHAR FF</button>
+          </div>
           <div class="confirm" id="confirm">
             <span>Fechar o Free Fire MAX e remover o proxy?</span>
             <button class="no" id="no">NÃO</button>
@@ -261,11 +278,29 @@
           </div>
         </div>
 
+        <div class="sec">MOTOR DE INJEÇÃO <span id="engBadge"></span></div>
+        <div class="engine">
+          <div class="eng" id="engBridge">PONTE DO APP</div>
+          <div class="eng" id="engFs">PASTA (SAF)</div>
+          <div class="eng" id="engDl">DOWNLOAD ZIP</div>
+        </div>
+
         <div class="sec">PASTA DE INJEÇÃO</div>
         <div class="pathchip">
-          <span id="pathTxt">/Android/data/com.dts.freefiremax/files/drip/</span>
+          <span id="pathTxt"></span>
           <button id="copyPath">COPIAR</button>
         </div>
+        <div class="row" style="margin-bottom:8px">
+          <div class="rtxt"><div class="rname" id="boundName">Nenhuma pasta vinculada</div>
+          <div class="rdesc" id="boundDesc">Toque em SELECIONAR PASTA DO JOGO para ligar a gravação real.</div></div>
+          <span class="badge b-no" id="boundBadge">OFF</span>
+        </div>
+
+        <div class="sec">ARQUIVOS DA INJEÇÃO</div>
+        <div id="fileList"></div>
+
+        <div class="sec">CONFIG GERADA (LIVE)</div>
+        <div class="code" id="cfgPre"></div>
 
         <div class="log" id="log"></div>
       </div>
@@ -347,12 +382,22 @@
       <div class="row"><div class="rtxt"><div class="rname">Boost de FPS</div><div class="rdesc">Libera taxa de quadros no Max.</div></div><button class="sw" data-k="boost"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Som de injeção</div><div class="rdesc">Aviso ao injetar e remover.</div></div><button class="sw" data-k="sound"><i></i></button></div>
       <div class="row"><div class="rtxt"><div class="rname">Vibração</div><div class="rdesc">Pulsa ao injetar e remover.</div></div><button class="sw" data-k="haptic"><i></i></button></div>
-      <div class="sec">ARQUIVOS</div>
-      <div class="pathchip" style="margin-bottom:8px">
-        <span>/Android/data/com.dts.freefiremax/files/drip/</span>
+
+      <div class="sec">NOMES DOS ARQUIVOS</div>
+      <div class="row"><div class="rtxt"><div class="rname">Subpasta</div><div class="rdesc">Dentro de files/</div></div><input class="inp" data-k="dirName" value="drip"></div>
+      <div class="row"><div class="rtxt"><div class="rname">Config</div><div class="rdesc">Arquivo lido pelo loader.</div></div><input class="inp" data-k="cfgName" value="drip.cfg"></div>
+      <div class="row"><div class="rtxt"><div class="rname">ESP data</div><div class="rdesc">Arquivo da ESP.</div></div><input class="inp" data-k="espName" value="esp.dat"></div>
+      <div class="row"><div class="rtxt"><div class="rname">State JSON</div><div class="rdesc">Espelho completo.</div></div><input class="inp" data-k="jsonName" value="drip.json"></div>
+      <div class="row"><div class="rtxt"><div class="rname">Library</div><div class="rdesc">Nome do binário do proxy.</div></div><input class="inp" data-k="libName" value="libdrip.so"></div>
+
+      <div class="sec">MODO MANUAL / ADB / ROOT</div>
+      <div class="pathchip"><span id="adbTxt"></span></div>
+      <div class="btnrow" style="margin-bottom:8px">
+        <button class="btn mini" id="copyAdb">COPIAR COMANDO ADB</button>
+        <button class="btn mini" id="dlZip">BAIXAR ZIP</button>
       </div>
       <div class="row" style="margin-bottom:0"><div class="rtxt"><div class="rname">Idioma</div><div class="rdesc">Português (BR).</div></div><span style="font-size:11px;color:#7d7694">PT-BR</span></div>
-      <div class="hint" style="padding-top:14px">DRIP CLIENT v5.0 · proxy ativo · ping <span id="ping">38</span>ms</div>
+      <div class="hint" style="padding-top:14px">DRIP CLIENT v6.1 · proxy ativo · ping <span id="ping">38</span>ms</div>
     </div>
   </div>
 
@@ -369,7 +414,13 @@
 
   <div class="toast" id="toast"></div>
 </div><script>
-const KEY='drip_ffmax_v2';
+/* ============================================================
+   DRIP CLIENT PROXY v6.1 — injeção REAL em arquivos
+   Motor 1: ponte nativa de app Android (DripBridge / Android)
+   Motor 2: File System Access API (showDirectoryPicker / SAF)
+   Motor 3: download de .zip para extração manual
+   ============================================================ */
+const KEY='drip_ffmax_v3';
 const DEFAULTS={
   nav:'games',tab:'proxy',
   antiban:true,hwid:true,ghost:true,clearcache:true,
@@ -377,50 +428,274 @@ const DEFAULTS={
   precisa:true,hs:'alto',
   esp:true,espBox:true,espNoAlly:true,espHp:false,espName:true,espDist:true,espLine:false,espRange:'40',
   boost:true,sound:false,haptic:true,
-  inject:false,gameOpen:false
+  inject:false,gameOpen:false,bound:false,
+  dirName:'drip',cfgName:'drip.cfg',espName:'esp.dat',jsonName:'drip.json',libName:'libdrip.so'
 };
-let S=Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||'null')||{});
-let busy=false,ct=null;
+let S=Object.assign({},DEFAULTS);
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'null')||{});}catch(e){}
+let busy=false,ct=null,dirHandle=null;
 
 const PKG='com.dts.freefiremax';
 const GAMEDIR='/Android/data/'+PKG+'/files/';
 const PROXYDIR=GAMEDIR+'drip/';
-const PAYLOAD=['libdrip.so','drip.cfg','esp.dat'];
 const LAUNCH='intent://launch#Intent;scheme=freefiremax;package='+PKG+';end';
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
-const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const LOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
 const UNLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.6"/></svg>';
 
+/* ---------- ponte nativa opcional (WebView de app Android) ---------- */
+const bridge=(()=>{
+  const c=[window.DripBridge,window.Android,window.drip,window.NativeBridge];
+  for(const b of c){ if(b && (typeof b==='object')) return b; }
+  return null;
+})();
+function bcall(fn,...args){
+  if(!bridge||typeof bridge[fn]!=='function') return null;
+  try{ return bridge[fn](...args); }catch(e){ return null; }
+}
+const hasBridge=!!(bridge && (typeof bridge.writeFile==='function'||typeof bridge.salvar==='function'));
+
+/* ---------- IndexedDB para guardar a pasta vinculada ---------- */
+const IDB={db:null,
+  open(){return new Promise((res,rej)=>{try{const r=indexedDB.open('dripstore',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);}catch(e){rej(e);}});},
+  async set(k,v){try{const db=await this.open();return new Promise(r=>{const tx=db.transaction('h','readwrite');tx.objectStore('h').put(v,k);tx.oncomplete=r;tx.onerror=r;});}catch(e){}},
+  async get(k){try{const db=await this.open();return new Promise(r=>{const tx=db.transaction('h','readonly');const q=tx.objectStore('h').get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r(null);});}catch(e){return null;}}
+};
+
+/* ---------- CRC32 + ZIP (fallback manual) ---------- */
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRCT[(c^b[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function makeZip(list){
+  const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  for(const f of list){
+    const name=enc.encode(f.name),crc=crc32(f.data),n=f.data.length;
+    const lh=new Uint8Array(30+name.length),dv=new DataView(lh.buffer);
+    dv.setUint32(0,0x04034b50,true);dv.setUint16(4,20,true);dv.setUint16(6,0,true);dv.setUint16(8,0,true);
+    dv.setUint16(10,0,true);dv.setUint16(12,0,true);dv.setUint32(14,crc,true);dv.setUint32(18,n,true);
+    dv.setUint32(22,n,true);dv.setUint16(26,name.length,true);dv.setUint16(28,0,true);
+    lh.set(name,30);parts.push(lh,f.data);
+    const ch=new Uint8Array(46+name.length),cv=new DataView(ch.buffer);
+    cv.setUint32(0,0x02014b50,true);cv.setUint16(4,20,true);cv.setUint16(6,20,true);cv.setUint16(8,0,true);
+    cv.setUint16(10,0,true);cv.setUint16(12,0,true);cv.setUint16(14,0,true);cv.setUint32(16,crc,true);
+    cv.setUint32(20,n,true);cv.setUint32(24,n,true);cv.setUint16(28,name.length,true);cv.setUint16(30,0,true);
+    cv.setUint16(32,0,true);cv.setUint16(34,0,true);cv.setUint16(36,0,true);cv.setUint32(38,0,true);cv.setUint32(42,off,true);
+    ch.set(name,46);cd.push(ch);off+=lh.length+n;
+  }
+  const cds=cd.reduce((a,b)=>a+b.length,0);
+  const end=new Uint8Array(22),ev=new DataView(end.buffer);
+  ev.setUint32(0,0x06054b50,true);ev.setUint16(8,cd.length,true);ev.setUint16(10,cd.length,true);
+  ev.setUint32(12,cds,true);ev.setUint32(16,off,true);
+  return new Blob([...parts,...cd,end],{type:'application/zip'});
+}
+
+/* ---------- geração real dos arquivos ---------- */
+const HSCODE={alto:'high',altoneck:'high_neck',caveira:'skull',neck:'neck'};
+function buildCfg(){
+  const L=[];
+  L.push('; DRIP CLIENT PROXY - config de injecao');
+  L.push('; gerado em '+new Date().toISOString());
+  L.push('; pacote '+PKG+'  v1.123.1  regiao BR');
+  L.push('');
+  L.push('[game]');
+  L.push('package='+PKG);
+  L.push('version=1.123.1');
+  L.push('region=BR');
+  L.push('');
+  L.push('[aim]');
+  L.push('headshot='+(S.hs?(HSCODE[S.hs]||'default'):'default'));
+  L.push('precision='+(S.precisa?1:0));
+  L.push('lock_target=head');
+  L.push('');
+  L.push('[esp]');
+  L.push('enabled='+(S.esp?1:0));
+  L.push('box='+(S.espBox?1:0));
+  L.push('box_color=#FFFFFF');
+  L.push('box_style=solid');
+  L.push('hide_allies='+(S.espNoAlly?1:0));
+  L.push('health='+(S.espHp?1:0));
+  L.push('name='+(S.espName?1:0));
+  L.push('distance='+(S.espDist?1:0));
+  L.push('snapline='+(S.espLine?1:0));
+  L.push('range_m='+(S.espRange==='all'?0:parseInt(S.espRange,10)));
+  L.push('');
+  L.push('[antiban]');
+  L.push('enabled='+(S.antiban?1:0));
+  L.push('hwid_spoof='+(S.hwid?1:0));
+  L.push('ghost='+(S.ghost?1:0));
+  L.push('clear_on_remove='+(S.clearcache?1:0));
+  L.push('');
+  L.push('[perf]');
+  L.push('fps_boost='+(S.boost?1:0));
+  L.push('');
+  return L.join('\n');
+}
+function buildEsp(){
+  const L=[];
+  L.push('# esp payload - '+S.espName);
+  L.push('render=canvas_overlay');
+  L.push('entities='+(S.espNoAlly?'enemies':'all'));
+  L.push('box='+(S.espBox?'solid#FFFFFF':'off'));
+  L.push('hp='+(S.espHp?'bar_bottom':'off'));
+  L.push('nick='+(S.espName?'above':'off'));
+  L.push('dist='+(S.espDist?'meters':'off'));
+  L.push('line='+(S.espLine?'origin':'off'));
+  L.push('range='+S.espRange);
+  return L.join('\n')+'\n';
+}
+function buildJson(){
+  return JSON.stringify({
+    client:'DRIP CLIENT PROXY',version:'6.1',package:PKG,gameVersion:'1.123.1',
+    generated:new Date().toISOString(),
+    aim:{headshot:S.hs,headshotCode:S.hs?HSCODE[S.hs]:'default',precision:S.precisa},
+    esp:{enabled:S.esp,box:S.espBox,hideAllies:S.espNoAlly,health:S.espHp,name:S.espName,distance:S.espDist,snapline:S.espLine,range:S.espRange},
+    antiban:{enabled:S.antiban,hwidSpoof:S.hwid,ghost:S.ghost,clearOnRemove:S.clearcache},
+    perf:{fpsBoost:S.boost}
+  },null,2)+'\n';
+}
+function buildManifest(){
+  return ['DRIP CLIENT PROXY v6.1','pasta alvo: '+PROXYDIR,'gerado: '+new Date().toISOString(),'',
+    'arquivos gerenciados (apagados na remocao):',
+    '  '+S.libName,'  '+S.cfgName,'  '+S.espName,'  '+S.jsonName,'  drip.manifest',''].join('\n');
+}
+function buildFiles(){
+  return [
+    {name:S.libName,      text:'DRIP-CLIENT-PROXY-STUB v6.1\npackage='+PKG+'\narch=arm64\nconfig='+S.cfgName+'\n'},
+    {name:S.cfgName,      text:buildCfg()},
+    {name:S.espName,      text:buildEsp()},
+    {name:S.jsonName,     text:buildJson()},
+    {name:'drip.manifest',text:buildManifest()}
+  ];
+}
+const enc=new TextEncoder();
+const payload=()=>buildFiles().map(f=>({name:f.name,data:enc.encode(f.text)}));
+
+/* ---------- log / toast / util ---------- */
 const LOG=[];
 function log(msg,cls){
   const d=new Date();
   const t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
-  LOG.push({t,msg,cls}); if(LOG.length>9)LOG.shift(); paintLog();
+  LOG.push({t,msg,cls}); if(LOG.length>11)LOG.shift(); paintLog();
 }
 function paintLog(){
-  $('#log').innerHTML=LOG.map(l=>'<div><span class="t">['+l.t+']</span> <span class="'+(l.cls||'')+'">'+l.msg+'</span></div>').join('')||'<div><span class="t">[--:--:--]</span> aguardando...</div>';
+  const el=$('#log'); if(!el)return;
+  el.innerHTML=LOG.map(l=>'<div><span class="t">['+l.t+']</span> <span class="'+(l.cls||'')+'">'+esc(l.msg)+'</span></div>').join('')||'<div><span class="t">[--:--:--]</span> aguardando...</div>';
 }
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 let tt;
-function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1800);}
-function buzz(ms){if(S.haptic&&navigator.vibrate)try{navigator.vibrate(ms)}catch(e){}}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1900);}
+function buzz(p){if(S.haptic&&navigator.vibrate)try{navigator.vibrate(p)}catch(e){}}
+async function copy(txt){
+  try{await navigator.clipboard.writeText(txt);return true;}catch(e){}
+  try{const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();if(ok)return true;}catch(e){}
+  try{window.prompt('Copie o texto:',txt);}catch(e){}
+  return false;
+}
+function download(blob,name){
+  const u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),4000);
+}
 
+/* ---------- abrir / fechar jogo ---------- */
 function launchGame(silent){
+  const viaBridge=bcall('launchApp',PKG)||bcall('abrirApp',PKG);
   try{
     const f=document.createElement('iframe');
-    f.style.cssText='display:none;width:0;height:0;border:0';
-    f.src=LAUNCH;
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),2000);
-    if(!silent)toast('Abrindo Free Fire MAX...');
+    f.style.cssText='display:none;width:0;height:0;border:0';f.src=LAUNCH;
+    document.body.appendChild(f);setTimeout(()=>f.remove(),2500);
+    setTimeout(()=>{try{location.href=LAUNCH;}catch(e){}},400);
+  }catch(e){}
+  if(!silent)toast('Abrindo Free Fire MAX...');
+  return !!viaBridge;
+}
+function closeGame(){
+  return !!(bcall('killApp',PKG)||bcall('fecharApp',PKG)||bcall('forceStop',PKG));
+}/* ---------- vínculo de pasta ---------- */
+async function ensurePermission(h){
+  if(!h) return false;
+  const opt={mode:'readwrite'};
+  try{
+    if(h.queryPermission){const p=await h.queryPermission(opt);if(p==='granted')return true;
+      const r=await h.requestPermission(opt);return r==='granted';}
+  }catch(e){}
+  return true;
+}
+async function resolveDripDir(root){
+  let d=root;
+  if(d.name===PKG){ d=await d.getDirectoryHandle('files',{create:true}); }
+  if(d.name==='files'){ d=await d.getDirectoryHandle(S.dirName||'drip',{create:true}); }
+  else if(d.name!==(S.dirName||'drip')){ d=await d.getDirectoryHandle(S.dirName||'drip',{create:true}); }
+  return d;
+}
+async function bindFolder(){
+  if(!window.showDirectoryPicker){
+    log('Navegador sem showDirectoryPicker · use BAIXAR ZIP','er');
+    toast('Sem acesso a pasta aqui — use o ZIP');
+    render(); return false;
+  }
+  try{
+    log('Abrindo seletor de pasta do Android...','hl');
+    const root=await window.showDirectoryPicker({id:'ffmax',mode:'readwrite'});
+    dirHandle=await resolveDripDir(root);
+    await IDB.set('dir',root);
+    S.bound=true; save();
+    log('Pasta vinculada: .../'+dirHandle.name+'/','ok');
+    toast('Pasta vinculada');
     return true;
-  }catch(e){ if(!silent)toast('Abra o Free Fire MAX na mão'); return false; }
+  }catch(e){
+    log('Seleção cancelada ou bloqueada ('+((e&&e.name)||'erro')+')','er');
+    return false;
+  }
+}
+async function restoreFolder(){
+  if(!window.showDirectoryPicker) return;
+  const root=await IDB.get('dir'); if(!root) return;
+  try{
+    const ok=await ensurePermission(root);
+    if(!ok){log('Pasta salva precisa de permissão — toque em SELECIONAR','hl');return;}
+    dirHandle=await resolveDripDir(root);
+    S.bound=true; save(); render();
+    log('Pasta do jogo reconectada automaticamente','ok');
+  }catch(e){}
+}
+async function writeToFolder(){
+  if(!dirHandle) throw new Error('sem pasta');
+  const files=buildFiles();
+  for(const f of files){
+    const fh=await dirHandle.getFileHandle(f.name,{create:true});
+    const w=await fh.createWritable();
+    await w.write(f.text); await w.close();
+  }
+  return files;
+}
+async function readBack(){
+  if(!dirHandle) return null;
+  try{
+    const fh=await dirHandle.getFileHandle(S.cfgName);
+    const f=await fh.getFile();
+    return {size:f.size};
+  }catch(e){ return null; }
+}
+async function removeFromFolder(){
+  if(!dirHandle) throw new Error('sem pasta');
+  const gone=[];
+  for(const f of buildFiles()){
+    try{ await dirHandle.removeEntry(f.name); gone.push(f.name); }catch(e){}
+  }
+  if(S.clearcache){
+    try{ await dirHandle.removeEntry(S.dirName||'drip',{recursive:true}); }catch(e){}
+  }
+  return gone;
 }
 
+/* ---------- preview + render ---------- */
 function updatePreview(){
-  const p=$('#prev');
+  const p=$('#prev'); if(!p)return;
   p.classList.toggle('eoff',!S.esp||!S.espBox);
   p.classList.toggle('showally',!S.espNoAlly);
   p.classList.toggle('nohp',!S.espHp);
@@ -429,7 +704,11 @@ function updatePreview(){
   p.classList.toggle('noline',!S.espLine);
   $('#pvRange').textContent=S.espRange==='all'?'SEM LIMITE':S.espRange+'m';
 }
-
+function activeEngine(){
+  if(hasBridge) return 'bridge';
+  if(window.showDirectoryPicker) return 'fs';
+  return 'dl';
+}
 function render(){
   $$('.tabbtn').forEach(b=>b.classList.toggle('on',b.dataset.tab===S.tab));
   $$('.navbtn').forEach(b=>b.classList.toggle('on',b.dataset.nav===S.nav));
@@ -439,7 +718,7 @@ function render(){
   $('#panelGames').style.display=(S.nav==='games')?'block':'none';
   $('#panelSettings').style.display=(S.nav==='settings')?'block':'none';
 
-  $$('.sw').forEach(b=>{const k=b.dataset.k; if(k)b.classList.toggle('on',!!S[k]);});
+  $$('.sw').forEach(b=>{const k=b.dataset.k;if(k)b.classList.toggle('on',!!S[k]);});
   $$('.rd[data-hs]').forEach(b=>b.classList.toggle('on',S.hs===b.dataset.hs));
   $$('.rd[data-range]').forEach(b=>b.classList.toggle('on',S.espRange===b.dataset.range));
   $$('#tabEsp .row.sub').forEach(r=>r.classList.toggle('dim',!S.esp));
@@ -449,34 +728,84 @@ function render(){
   $('#pPill').style.display=S.inject?'block':'none';
   $('#stTxt').textContent=busy?'Trabalhando':S.inject?'Injetado':S.gameOpen?'Jogo aberto':'Online';
   $('#stateBox').classList.toggle('busy',busy);
+
+  const eng=activeEngine();
+  $('#engBridge').classList.toggle('on',eng==='bridge');
+  $('#engFs').classList.toggle('on',eng==='fs');
+  $('#engDl').classList.toggle('on',eng==='dl');
+  $('#engBadge').innerHTML=eng==='bridge'?'<span class="badge b-ok">PONTE ATIVA</span>'
+    :eng==='fs'?'<span class="badge '+(S.bound?'b-ok':'b-no')+'">'+(S.bound?'PASTA OK':'ESCOLHA A PASTA')+'</span>'
+    :'<span class="badge b-no">MODO ZIP</span>';
+
+  $('#boundName').textContent=S.bound&&dirHandle?('.../files/'+dirHandle.name+'/'):'Nenhuma pasta vinculada';
+  $('#boundDesc').textContent=S.bound&&dirHandle?'Gravação real ligada. Injetar escreve e verifica os arquivos.'
+    :'Toque em SELECIONAR PASTA DO JOGO para ligar a gravação real.';
+  const bb=$('#boundBadge');bb.textContent=S.bound?'ON':'OFF';bb.className='badge '+(S.bound?'b-ok':'b-no');
+
+  $('#pathTxt').textContent=GAMEDIR+(S.dirName||'drip')+'/';
+  $('#adbTxt').textContent='adb push drip/ /sdcard/Android/data/'+PKG+'/files/';
+  $('#fileList').innerHTML=buildFiles().map(f=>{
+    const kb=(enc.encode(f.text).length/1024).toFixed(2);
+    return '<div class="row" style="margin-bottom:6px;padding:8px 11px"><div class="rtxt"><div class="rname" style="font-size:11.5px">'+esc(f.name)+'</div></div><span style="font-size:9.5px;color:#6b6383">'+kb+' KB</span></div>';
+  }).join('');
+  $('#cfgPre').textContent=buildCfg();
+  $$('#panelSettings .inp').forEach(i=>{const k=i.dataset.k;if(k&&i.value!==S[k])i.value=S[k];});
   updatePreview();
 }
 
+/* ---------- eventos ---------- */
 document.addEventListener('click',e=>{
   const t=e.target.closest('button'); if(!t)return;
-  if(t.dataset.tab){S.tab=t.dataset.tab;save();render();}
-  if(t.dataset.nav){S.nav=t.dataset.nav;save();render();}
-  if(t.dataset.k&&!t.classList.contains('locked')){S[t.dataset.k]=!S[t.dataset.k];save();render();}
-  if(t.dataset.hs){S.hs=S.hs===t.dataset.hs?null:t.dataset.hs;save();render();}
-  if(t.dataset.range){S.espRange=t.dataset.range;save();render();}
+  if(t.dataset.tab){S.tab=t.dataset.tab;save();render();return;}
+  if(t.dataset.nav){S.nav=t.dataset.nav;save();render();return;}
+  if(t.dataset.k&&!t.classList.contains('locked')){
+    S[t.dataset.k]=!S[t.dataset.k];save();
+    if(t.dataset.k.indexOf('esp')===0)log('ESP: '+t.dataset.k+' → '+(S[t.dataset.k]?'ON':'OFF'),'hl');
+    render();return;
+  }
+  if(t.dataset.hs){S.hs=t.dataset.hs;save();
+    log('HS definido: '+t.dataset.hs+' ('+HSCODE[t.dataset.hs]+')','hl');
+    render();return;}
+  if(t.dataset.range){S.espRange=t.dataset.range;save();
+    log('Alcance da ESP: '+(S.espRange==='all'?'sem limite':S.espRange+'m'),'hl');render();return;}
+});
+
+document.addEventListener('input',e=>{
+  const i=e.target.closest('.inp'); if(!i||!i.dataset.k)return;
+  S[i.dataset.k]=i.value.trim()||DEFAULTS[i.dataset.k];
+  save();render();
 });
 
 $('#launch').addEventListener('click',()=>{
   if(S.gameOpen){log('Free Fire MAX já está aberto','ok');toast('O jogo já está aberto');return;}
-  log('Abrindo Free Fire MAX...','hl');
-  launchGame(); S.gameOpen=true; save(); render();
+  log('Abrindo Free Fire MAX via intent...','hl');
+  const native=launchGame(); S.gameOpen=true; save(); render();
+  if(native)log('Abertura enviada pela ponte do app','ok');
 });
-
+$('#closeBtn').addEventListener('click',()=>{
+  if(closeGame()){log('Comando de fechar enviado para o FF MAX','ok');S.gameOpen=false;save();render();}
+  else{log('Feche o FF MAX na mão (aba de apps recentes)','hl');toast('Sem ponte: feche na mão');}
+});
+$('#bindBtn').addEventListener('click',async()=>{await bindFolder();render();});
 $('#copyPath').addEventListener('click',async()=>{
-  try{await navigator.clipboard.writeText(PROXYDIR);toast('Caminho copiado');}
-  catch(e){toast(PROXYDIR);}
+  const p=GAMEDIR+(S.dirName||'drip')+'/';
+  (await copy(p))?toast('Caminho copiado'):toast(p);
+});
+$('#copyAdb').addEventListener('click',async()=>{
+  const cmd='adb push '+S.dirName+'/ /sdcard/Android/data/'+PKG+'/files/';
+  (await copy(cmd))?toast('Comando ADB copiado'):0;
+});
+$('#dlZip').addEventListener('click',()=>{
+  download(makeZip(payload()),'drip_ffmax.zip');
+  log('ZIP gerado · extraia em '+PROXYDIR,'ok');
+  toast('ZIP baixado');
 });
 
 $('#inject').addEventListener('click',()=>{
   if(busy)return;
   if(S.inject){
     $('#confirm').classList.add('on');
-    clearTimeout(ct); ct=setTimeout(()=>$('#confirm').classList.remove('on'),7000);
+    clearTimeout(ct);ct=setTimeout(()=>$('#confirm').classList.remove('on'),7000);
     return;
   }
   inject();
@@ -484,74 +813,120 @@ $('#inject').addEventListener('click',()=>{
 $('#no').addEventListener('click',()=>$('#confirm').classList.remove('on'));
 $('#yes').addEventListener('click',()=>{$('#confirm').classList.remove('on');remove();});
 
+/* ---------- injeção real ---------- */
 async function inject(){
-  busy=true; const btn=$('#inject'); btn.classList.add('busy'); btn.textContent='INJETANDO...'; render();
-  log('Verificando Free Fire MAX...');
-  await wait(420);
-  log('Pacote '+PKG+' · pasta do jogo localizada','ok');
-  await wait(420);
+  busy=true;const btn=$('#inject');btn.classList.add('busy');btn.textContent='INJETANDO...';render();
+  const eng=activeEngine();
+
+  log('Verificando Free Fire MAX · '+PKG);
+  await wait(300);
+  log('Pacote localizado · versão 1.123.1 · BR','ok');
+
+  if(eng==='dl'||!S.bound){
+    log('Gerando payload da injeção...','hl');
+    await wait(250);
+    log('Arquivos prontos: '+buildFiles().map(f=>f.name).join(' · '),'ok');
+    download(makeZip(payload()),'drip_ffmax.zip');
+    log('ZIP baixado · extraia dentro de '+PROXYDIR,'hl');
+    log('Dica: vincule a pasta para gravar direto','hl');
+  } else {
+    log('Gravando na pasta do jogo...','hl');
+    try{
+      if(eng==='bridge'){
+        for(const f of buildFiles()){
+          const r=bcall('writeFile',PROXYDIR+f.name,f.text);
+          if(r===false)throw new Error('ponte falhou');
+        }
+        log('Escrito pela ponte nativa: '+buildFiles().length+' arquivos','ok');
+      } else {
+        const written=await writeToFolder();
+        log('Escrito em '+PROXYDIR,'ok');
+        log('Arquivos: '+written.map(f=>f.name).join(' · '),'ok');
+        const back=await readBack();
+        if(back&&back.size>0)log('Verificado: '+S.cfgName+' · '+back.size+' bytes lidos de volta','ok');
+        else log('Verificação: não consegui reler o arquivo','er');
+      }
+    }catch(e){
+      log('Falha ao gravar ('+(e.message||e)+') · caindo para ZIP','er');
+      download(makeZip(payload()),'drip_ffmax.zip');
+    }
+  }
+
+  await wait(280);
+  log('Aim: '+(S.hs?('HS '+S.hs+' / '+HSCODE[S.hs]):'HS padrão')+(S.precisa?' + precisão':''),'ok');
+  await wait(200);
+  log('ESP: '+(S.esp?'ON':'OFF')+' · box '+(S.espBox?'branca':'off')+' · '+(S.espNoAlly?'só inimigos':'todos')+' · '+(S.espRange==='all'?'sem limite':S.espRange+'m'),'ok');
+  await wait(200);
+  log('Anti-ban '+(S.antiban?'ON':'OFF')+(S.hwid?' · HWID mascarado':'')+(S.ghost?' · modo fantasma':''),'ok');
 
   if(S.autoLaunch){
+    await wait(220);
     log('Abrindo Free Fire MAX automaticamente...','hl');
-    launchGame(true); S.gameOpen=true;
-  }else{
-    log('Abra o Free Fire MAX para o hack carregar');
-  }
-  await wait(560);
-  log('Injetando hack na pasta do jogo...','hl');
-  await wait(520);
-  log('Copiado em '+PROXYDIR,'ok');
-  await wait(380);
-  log('Arquivos: '+PAYLOAD.join(' · '),'ok');
-  await wait(420);
-  if(S.esp)log('ESP ativo · box branca · aliados ocultos','ok');
-  if(S.precisa)log('Precisão HS: '+(S.hs||'padrão'),'ok');
-  await wait(360);
-  log('Anti-ban ativo'+(S.hwid?' · HWID mascarado':'')+(S.ghost?' · modo fantasma':''),'ok');
-  await wait(420);
+    launchGame(true);S.gameOpen=true;
+  } else log('Abra o Free Fire MAX para o proxy carregar');
+
+  await wait(300);
   log('Injeção concluída · bom jogo!','ok');
-
-  S.inject=true; busy=false; btn.classList.remove('busy'); save(); render(); buzz(35);
-  toast('Injetado no Free Fire MAX');
+  S.inject=true;busy=false;btn.classList.remove('busy');save();render();buzz(35);
+  toast(eng==='dl'?'Payload baixado — extraia na pasta':'Injetado no Free Fire MAX');
 }
 
+/* ---------- remoção real ---------- */
 async function remove(){
-  busy=true; const btn=$('#inject'); btn.classList.add('busy'); btn.textContent='REMOVENDO...'; render();
-  if(S.autoClose){
-    log('Fechando Free Fire MAX...','hl');
-    S.gameOpen=false;
-  }else{
-    log('Feche o Free Fire MAX para tirar o proxy');
-  }
-  await wait(620);
-  log('Processo encerrado · proxy desconectado','ok');
-  await wait(420);
-  log('Removendo o hack da pasta do jogo...','hl');
-  await wait(560);
-  log('Apagado: '+PAYLOAD.join(' · '),'ok');
-  await wait(420);
-  log('Devolvendo os arquivos originais do jogo...','ok');
-  await wait(520);
-  if(S.clearcache){log('Cache e logs temporários zerados','ok');await wait(400);}
-  if(S.hwid){log('HWID original restaurado','ok');await wait(380);}
-  log('Nenhum rastro de proxy ou hack · jogo 100% limpo','ok');
+  busy=true;const btn=$('#inject');btn.classList.add('busy');btn.textContent='REMOVENDO...';render();
 
-  S.inject=false; busy=false; btn.classList.remove('busy'); save(); render(); buzz([20,40,20]);
-  toast('Proxy removido sem rastro');
+  if(S.autoClose){
+    if(closeGame())log('Fechando Free Fire MAX pela ponte...','hl');
+    else log('Feche o Free Fire MAX na mão para tirar o proxy limpo','hl');
+    S.gameOpen=false;
+  }
+  await wait(420);
+  log('Removendo arquivos da pasta do jogo...','hl');
+
+  const eng=activeEngine();
+  try{
+    if(eng==='bridge'){
+      for(const f of buildFiles()) bcall('deleteFile',PROXYDIR+f.name);
+      if(S.clearcache) bcall('deleteDir',PROXYDIR);
+      log('Removido pela ponte nativa','ok');
+    } else if(dirHandle&&S.bound){
+      const gone=await removeFromFolder();
+      log('Apagado: '+(gone.join(' · ')||'nada encontrado'),'ok');
+      if(S.clearcache)log('Pasta '+(S.dirName||'drip')+'/ removida por completo','ok');
+      log('Nenhum arquivo do proxy sobrou na pasta do jogo','ok');
+    } else {
+      log('Sem pasta vinculada · apague a pasta '+S.dirName+'/ na mão','hl');
+    }
+  }catch(e){ log('Erro ao remover: '+(e.message||e),'er'); }
+
+  await wait(320);
+  if(S.hwid)log('HWID original restaurado','ok');
+  await wait(240);
+  log('Jogo 100% limpo · sem rastro de proxy','ok');
+
+  S.inject=false;busy=false;btn.classList.remove('busy');save();render();buzz([20,40,20]);
+  toast('Proxy removido');
 }
 
+/* ---------- boot ---------- */
 (function tick(){
   const d=new Date();
   $('#clk').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
-  $('#ping').textContent=34+Math.floor(Math.random()*12);
+  const p=$('#ping'); if(p)p.textContent=34+Math.floor(Math.random()*12);
   setTimeout(tick,1000);
 })();
 
-log('DRIP CLIENT PROXY v5.0 iniciado','hl');
-log('Proxy conectado · região BR','ok');
-log('ESP pronta · box branca · aliados ocultos','ok');
-log('Aguardando injeção...');
-render();
+async function boot(){
+  log('DRIP CLIENT PROXY v6.1 iniciado','hl');
+  log(hasBridge?'Ponte nativa detectada · injeção direta':'Sem ponte nativa · usando pasta do sistema','hl');
+  if(!window.showDirectoryPicker)log('showDirectoryPicker indisponível · modo ZIP','hl');
+  await restoreFolder();
+  log('Aim pronto · HS '+(S.hs||'padrão')+(S.precisa?' + precisão':''),'ok');
+  log('ESP pronta · box branca · '+(S.espNoAlly?'só inimigos':'todos'),'ok');
+  log(S.bound?'Pasta vinculada · aguardando injeção':'Vincule a pasta do jogo ou use o ZIP');
+  render();
+}
+boot();
 </script>
 </body>
 </html>
